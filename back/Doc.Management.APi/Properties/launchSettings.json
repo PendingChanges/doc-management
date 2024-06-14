@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "profiles": {
+    "https": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:7282;http://localhost:5046",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ConnectionStrings__Marten": "Host=ba34xc4gvzpbxmo9g3wb-postgresql.services.clever-cloud.com;Username=urzx9nwoxa5vckb2l2qr;Port=50013;Password=cYRTGnwKdlLJpRYvUQazJbzMq4W3Iv;Database=ba34xc4gvzpbxmo9g3wb"
+      }
+    }
+  }
+}

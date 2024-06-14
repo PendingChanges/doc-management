@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="MediatR.Contracts" Version="2.0.1" />
+    <PackageReference Include="Stateless" Version="5.16.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tags\" />
+  </ItemGroup>
+</Project>
