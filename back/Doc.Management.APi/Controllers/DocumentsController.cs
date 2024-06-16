@@ -16,15 +16,17 @@ public class DocumentsController : ControllerBase
 {
     private readonly IMediator _mediator;
     private readonly IContext _context;
+    private readonly IStoreFile _fileStore;
 
     public class Upload
     {
         public IFormFile? File { get; set; }
     }
-    public DocumentsController(IMediator mediator, IContext context)
+    public DocumentsController(IMediator mediator, IContext context, IStoreFile fileStore)
     {
         _mediator = mediator;
         _context = context;
+        _fileStore = fileStore;
     }
 
 
@@ -43,18 +45,17 @@ public class DocumentsController : ControllerBase
         // Generate a new file name with a GUID
         var newFileName = Path.GetRandomFileName() + extension;
 
-        var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads");
-        var filePath = Path.Combine(folderPath, newFileName);
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        using (var stream = new MemoryStream())
         {
             await file.CopyToAsync(stream);
+
+            await _fileStore.UploadStreamAsync(stream, newFileName, cancellationToken).ConfigureAwait(false);
         }
 
         var command = new WrappedCommand<CreateDocument, Document>(new CreateDocument(file.FileName), _context.UserId);
 
         var result = await _mediator.Send(command, cancellationToken);
 
-        var fileUrl = Url.Content($"~/uploads/{newFileName}");
-        return Ok(new { url = fileUrl });
+        return Ok(result?.Id);
     }
 }
