@@ -29,8 +29,8 @@ public static class ServiceCollectionExtensions
             options.Projections.Add(new DocumentProjection(), ProjectionLifecycle.Inline);
 
             // Indexes
-            options.Schema.For<DocumentDocument>().UniqueIndex(c => c.Id);
-            options.Schema.For<DocumentDocument>().FullTextIndex(c => c.Name);
+            options.Schema.For<DocumentDocument>().UniqueIndex(c => c.Key);
+            options.Schema.For<DocumentDocument>().FullTextIndex(c => c.FileNameWithoutExtension);
         });
 
         var querySessionDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IQuerySession));

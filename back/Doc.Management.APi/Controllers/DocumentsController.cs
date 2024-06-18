@@ -1,6 +1,7 @@
 ﻿using Doc.Management.CommandHandlers;
 using Doc.Management.Documents;
 using Doc.Management.Documents.Commands;
+using Doc.Management.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,26 +34,28 @@ public class DocumentsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Post([FromForm] Upload uploadFile, CancellationToken cancellationToken = default)
     {
-        IFormFile? file = uploadFile.File;
-
-        if (file == null || file.Length == 0)
+        if (uploadFile.File == null || uploadFile.File.Length == 0)
+        {
             return BadRequest("No file selected");
+        }
 
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+        var extension = Path.GetExtension(uploadFile.File.FileName).ToLowerInvariant();
+
         if (string.IsNullOrEmpty(extension))
+        {
             return BadRequest("Invalid file type");
+        }
 
-        // Generate a new file name with a GUID
-        var newFileName = Path.GetRandomFileName() + extension;
+        var key = DocumentKey.NewDocumentKey();
 
         using (var stream = new MemoryStream())
         {
-            await file.CopyToAsync(stream);
+            await uploadFile.File.CopyToAsync(stream);
 
-            await _fileStore.UploadStreamAsync(stream, newFileName, cancellationToken).ConfigureAwait(false);
+            await _fileStore.UploadStreamAsync(stream, key, cancellationToken).ConfigureAwait(false);
         }
 
-        var command = new WrappedCommand<CreateDocument, Document>(new CreateDocument(file.FileName), _context.UserId);
+        var command = new WrappedCommand<CreateDocument, Document>(new CreateDocument(key, Path.GetFileNameWithoutExtension(uploadFile.File.FileName), extension), _context.UserId);
 
         var result = await _mediator.Send(command, cancellationToken);
 

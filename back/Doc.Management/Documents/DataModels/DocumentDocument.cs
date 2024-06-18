@@ -2,4 +2,4 @@
 
 namespace Doc.Management.Documents.DataModels;
 
-public record DocumentDocument(string Id, string Name);
+public record DocumentDocument(string Key, string FileNameWithoutExtension, string Extension);
