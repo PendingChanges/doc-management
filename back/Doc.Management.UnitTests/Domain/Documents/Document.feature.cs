@@ -118,7 +118,7 @@ this.ScenarioInitialize(scenarioInfo);
                             "3}\"", userid, key, documentName, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.Then(string.Format("A document with name \"{0}\", extension \"<extension\" is created by \"{1}\"", documentName, userid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("A document with name \"{0}\", extension \"{1}\" is created by \"{2}\"", documentName, extension, userid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

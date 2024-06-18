@@ -6,7 +6,7 @@ A short summary of the feature
 Scenario: The user create a document
 	Given No existing document
 	When A user with id "<userid>" create a document with key "<key>" name "<documentName>" and extension "<extension>"
-	Then A document with name "<documentName>", extension "<extension" is created by "<userid>"
+	Then A document with name "<documentName>", extension "<extension>" is created by "<userid>"
 	
 Examples:
 	| key | userid   | documentName | extension |
