@@ -84,8 +84,8 @@ namespace Doc.Management.UnitTests.Domain.Documents
         [Xunit.TraitAttribute("FeatureTitle", "Document")]
         [Xunit.TraitAttribute("Description", "The user create a document")]
         [Xunit.TraitAttribute("Category", "document")]
-        [Xunit.InlineDataAttribute("key", "testuser", "MyDocument", "ext", new string[0])]
-        public void TheUserCreateADocument(string key, string userid, string documentName, string extension, string[] exampleTags)
+        [Xunit.InlineDataAttribute("key", "testuser", "MyDocument", "file", "ext", new string[0])]
+        public void TheUserCreateADocument(string key, string userid, string documentName, string filename, string extension, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "document"};
@@ -98,6 +98,7 @@ namespace Doc.Management.UnitTests.Domain.Documents
             argumentsOfScenario.Add("key", key);
             argumentsOfScenario.Add("userid", userid);
             argumentsOfScenario.Add("documentName", documentName);
+            argumentsOfScenario.Add("filename", filename);
             argumentsOfScenario.Add("extension", extension);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("The user create a document", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 6
@@ -114,11 +115,11 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.Given("No existing document", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 8
- testRunner.When(string.Format("A user with id \"{0}\" create a document with key \"{1}\" name \"{2}\" and extension \"{" +
-                            "3}\"", userid, key, documentName, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When(string.Format("A user with id \"{0}\" create a document with key \"{1}\" name \"{2}\", filename \"{3}\" " +
+                            "and extension \"{4}\"", userid, key, documentName, filename, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 9
- testRunner.Then(string.Format("A document with name \"{0}\", extension \"{1}\" is created by \"{2}\"", documentName, extension, userid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then(string.Format("A document with name \"{0}\", filnemae \"{1}\" extension \"{2}\" is created by \"{3}\"", documentName, filename, extension, userid), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
@@ -128,8 +129,8 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Document")]
         [Xunit.TraitAttribute("Description", "A user delete a document")]
         [Xunit.TraitAttribute("Category", "document")]
-        [Xunit.InlineDataAttribute("key", "MyDocument", "ext", new string[0])]
-        public void AUserDeleteADocument(string key, string documentName, string extension, string[] exampleTags)
+        [Xunit.InlineDataAttribute("key", "MyDocument", "file", "ext", new string[0])]
+        public void AUserDeleteADocument(string key, string documentName, string filename, string extension, string[] exampleTags)
         {
             string[] @__tags = new string[] {
                     "document"};
@@ -141,6 +142,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("key", key);
             argumentsOfScenario.Add("documentName", documentName);
+            argumentsOfScenario.Add("filename", filename);
             argumentsOfScenario.Add("extension", extension);
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user delete a document", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 16
@@ -154,7 +156,8 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 17
- testRunner.Given(string.Format("An existing document with key \"{0}\", name \"<name>\" and extension \"{1}\"", key, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("An existing document with key \"{0}\", name \"<name>\", file \"{1}\" and extension \"{2}" +
+                            "\"", key, filename, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 18
  testRunner.When("A user delete the document", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

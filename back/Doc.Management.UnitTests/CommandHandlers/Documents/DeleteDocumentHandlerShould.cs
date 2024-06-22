@@ -30,7 +30,7 @@ public class DeleteDocumentHandlerShould
         //Arrange
         var ownerId = new UserId("user id");
         var aggregate = new Document();
-        aggregate.Create(DocumentKey.NewDocumentKey(), "name", "ext", ownerId);
+        aggregate.Create(DocumentKey.NewDocumentKey(), "name", "filename", "ext", ownerId);
         _aggregateReaderMock.Setup(_ => _.LoadAsync<Document>(It.IsAny<string>(), It.IsAny<int?>(), It.IsAny<CancellationToken>())).ReturnsAsync(aggregate);
         var handler = new DeleteDocumentHandler(_eventWriterMock.Object, _aggregateReaderMock.Object);
         var command = new DeleteDocument(aggregate.Id);

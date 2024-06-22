@@ -8,7 +8,7 @@ namespace Doc.Management.Marten.Documents;
 public class DocumentProjection : EventProjection
 {
     public DocumentDocument Create(DocumentCreated documentCreated)
-        => new(documentCreated.Key, documentCreated.FileNameWithoutExtension, documentCreated.Extension);
+        => new(documentCreated.Id, documentCreated.Key, documentCreated.Name, documentCreated.FileNameWithoutExtension, documentCreated.Extension, documentCreated.Version);
 
     public void Project(DocumentDeleted @event, IDocumentOperations ops)
         => ops.Delete<DocumentDocument>(@event.Key);

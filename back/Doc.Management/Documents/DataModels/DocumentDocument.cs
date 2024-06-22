@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Doc.Management.ValueObjects;
+using System;
 
 namespace Doc.Management.Documents.DataModels;
 
-public record DocumentDocument(string Key, string FileNameWithoutExtension, string Extension);
+public record DocumentDocument(string Id,  string Key, string Name, string FileNameWithoutExtension, string Extension, Version Version);
