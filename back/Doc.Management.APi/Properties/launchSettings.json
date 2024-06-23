@@ -9,11 +9,11 @@
       "applicationUrl": "https://localhost:7282;http://localhost:5046",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__Marten": "Host=ba34xc4gvzpbxmo9g3wb-postgresql.services.clever-cloud.com;Username=urzx9nwoxa5vckb2l2qr;Port=50013;Password=cYRTGnwKdlLJpRYvUQazJbzMq4W3Iv;Database=ba34xc4gvzpbxmo9g3wb",
-        "S3__ServiceUrl": "https://cellar-c2.services.clever-cloud.com",
-        "S3__AccessKey": "06EH0XSA3340HZ7MS4HS",
-        "S3__SecretKey": "jh5C2hKkFfYd7F2aMDZ0Tl4POmdo3R7oDOcZ0C44",
-        "S3__BucketName": "doc-management-test"
+        "ConnectionStrings__Marten": "",
+        "S3__ServiceUrl": "",
+        "S3__AccessKey": "",
+        "S3__SecretKey": "",
+        "S3__BucketName": ""
       }
     }
   }
