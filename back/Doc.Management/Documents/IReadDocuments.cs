@@ -8,4 +8,6 @@ namespace Doc.Management.Documents;
 public interface IReadDocuments
 {
     Task<DocumentDocument?> GetDocumentByIdAsync(string id, Version? version, CancellationToken cancellationToken = default);
+
+    Task<DocumentResultSet> GetDocumentsAsync(GetDocumentsRequest request, CancellationToken cancellationToken = default);
 }

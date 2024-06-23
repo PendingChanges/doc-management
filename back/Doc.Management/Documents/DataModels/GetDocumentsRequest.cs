@@ -8,14 +8,12 @@ namespace Doc.Management.Documents.DataModels
             int? skip,
             int? take,
             string? sortBy,
-            string? sortDirection,
-            string userId)
+            string? sortDirection)
             : base(
             skip ?? Constants.DefaultPageNumber,
             take ?? Constants.DefaultPageSize,
             sortBy ?? Constants.DefaultDocumentSortBy,
-            sortDirection ?? Constants.DefaultSortDirection,
-            userId)
+            sortDirection ?? Constants.DefaultSortDirection)
         {
         }
     }
