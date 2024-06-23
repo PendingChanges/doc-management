@@ -1,14 +1,12 @@
 ﻿namespace Doc.Management.Common
 {
-    public abstract class PaginatedRequestBase : ContextFilteredRequestBase
+    public abstract class PaginatedRequestBase
     {
         protected PaginatedRequestBase(
             int skip,
             int take,
             string sortBy,
-            string sortDirection,
-            string userId)
-            : base(userId)
+            string sortDirection)
         {
             Skip = skip;
             Take = take;
