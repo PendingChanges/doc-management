@@ -5,20 +5,20 @@ A short summary of the feature
 @document
 Scenario: The user create a document
 	Given No existing document
-	When A user with id "<userid>" create a document with name "<documentName>"
-	Then A document "<documentName>" created by "<userid>" is created
+	When A user with id "<userid>" create a document with key "<key>" name "<documentName>", filename "<filename>" and extension "<extension>"
+	Then A document with name "<documentName>", filnemae "<filename>" extension "<extension>" is created by "<userid>"
 	
 Examples:
-	| userid   | documentName |
-	| testuser | MyDocument   |
+	| key | userid   | documentName | filename | extension |
+	| key | testuser | MyDocument   | file     | ext       |
 
 @document
 Scenario: A user delete a document
-	Given An existing document with name "<documentName>"
+	Given An existing document with key "<key>", name "<name>", file "<filename>" and extension "<extension>"
 	When A user delete the document
 	Then The document is deleted
 	And No errors
 
 Examples:
-	| documentName  |
-	| MyDocument |
+	| key | documentName | filename | extension |
+	| key | MyDocument   | file     | ext       |

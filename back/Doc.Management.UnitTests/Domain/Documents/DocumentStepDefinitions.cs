@@ -24,19 +24,20 @@ public class DocumentStepDefinitions
         //Nothing to do here
     }
 
-    [When(@"A user with id ""([^""]*)"" create a document with name ""([^""]*)""")]
-    public void WhenAUserWithIdCreateADocumentWithName(string userId, string name)
+    [When(@"A user with id ""([^""]*)"" create a document with key ""([^""]*)"" name ""([^""]*)"", filename ""([^""]*)"" and extension ""([^""]*)""")]
+    public void WhenAUserWithIdCreateADocumentWithKeyNameFilenameAndExtension(string userId, string key, string name, string file, string ext)
     {
         var aggregate = new Document();
-        _aggregateContext.Result = aggregate.Create(name, new UserId(userId));
+        _aggregateContext.Result = aggregate.Create(DocumentKey.Parse(key), name, file, ext, new UserId(userId));
         _aggregateContext.Aggregate = aggregate;
     }
 
-    [Then(@"A document ""([^""]*)"" created by ""([^""]*)"" is created")]
-    public void ThenADocumentCreatedByIsCreated(string name, string userId)
+    [Then(@"A document with name ""([^""]*)"", filnemae ""([^""]*)"" extension ""([^""]*)"" is created by ""([^""]*)""")]
+    public void ThenADocumentWithNameFilnemaeExtensionIsCreatedBy(string name, string file, string ext, string userId)
     {
         var documentAggregate = _aggregateContext.Aggregate as Document;
         Assert.NotNull(documentAggregate);
+        Assert.Equal(file, documentAggregate.FileNameWIthoutExtension);
         Assert.Equal(name, documentAggregate.Name);
 
         var events = _aggregateContext.GetEvents();
@@ -45,17 +46,27 @@ public class DocumentStepDefinitions
 
         Assert.NotNull(@event);
         Assert.Equal(name, @event.Name);
+        Assert.Equal(ext, @event.Extension);
+        Assert.Equal(file, @event.FileNameWithoutExtension);
         Assert.Equal(userId, @event.UserId);
-        Assert.Equal(documentAggregate.Id, @event.Id);
+        Assert.Equal(documentAggregate.Key, @event.Key);
     }
 
-    [Given(@"An existing document with name ""([^""]*)""")]
-    public void GivenAnExistingDocumentWithName(string name)
+
+    [Given(@"An existing document with key ""([^""]*)""")]
+    public void GivenAnExistingDocumentWithKey(string key)
+    {
+        throw new PendingStepException();
+    }
+
+    [Given(@"An existing document with key ""([^""]*)"", name ""([^""]*)"", file ""([^""]*)"" and extension ""([^""]*)""")]
+    public void GivenAnExistingDocumentWithKeyNameFileAndExtension(string key, string name, string file, string ext)
     {
         var aggregate = new Document();
-        aggregate.Create(name, new UserId("osef"));
+        aggregate.Create(DocumentKey.Parse(key), name, file, ext, new UserId("osef"));
         _aggregateContext.Aggregate = aggregate;
     }
+
 
     [When(@"A user delete the document")]
     public void WhenAUserDeleteTheDocument()
@@ -80,6 +91,6 @@ public class DocumentStepDefinitions
         var @event = events.LastOrDefault() as DocumentDeleted;
 
         Assert.NotNull(@event);
-        Assert.Equal(documentAggregate.Id, @event.Id);
+        Assert.Equal(documentAggregate.Key, @event.Key);
     }
 }

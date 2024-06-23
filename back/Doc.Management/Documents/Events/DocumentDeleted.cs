@@ -2,4 +2,4 @@
 
 namespace Doc.Management.Documents.Events;
 
-public sealed record DocumentDeleted(EntityId Id, UserId UserId);
+public sealed record DocumentDeleted(string Key, string UserId);

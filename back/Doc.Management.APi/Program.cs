@@ -7,9 +7,17 @@ using Serilog;
 using Doc.Management.Marten;
 using Doc.Management;
 using Journalist.Crm.Api.Infrastructure;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Doc.Management.S3;
 using Microsoft.Extensions.Configuration;
+using Doc.Management.Documents.Commands;
+using Doc.Management.ValueObjects;
+using System.IO;
+using System.Threading;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using Doc.Management.Documents;
+using Microsoft.AspNetCore.Http;
+using Doc.Management.Api.Documents;
 
 Log.Logger = new LoggerConfiguration()
           .WriteTo.Console(new RenderedCompactJsonFormatter())
@@ -33,11 +41,13 @@ builder.Services.AddCommandHandlers()
 builder.Services.AddHttpContextAccessor()
                      .AddTransient<IContext, Context>();
 
-builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAntiforgery();
 
 var app = builder.Build();
+app.UseAntiforgery();
+app.MapDocuments();
 
 if (app.Environment.IsDevelopment())
 {
@@ -46,9 +56,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();

@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
             ServiceURL = s3Options.ServiceUrl,
         });
 
-        services.AddTransient<IAmazonS3>((sp) => client);
+        services.AddSingleton<IAmazonS3>((sp) => client);
 
         services.AddTransient<IStoreFile, S3Store>();
 

@@ -30,7 +30,8 @@ public static class ServiceCollectionExtensions
 
             // Indexes
             options.Schema.For<DocumentDocument>().UniqueIndex(c => c.Id);
-            options.Schema.For<DocumentDocument>().FullTextIndex(c => c.Name);
+            options.Schema.For<DocumentDocument>().UniqueIndex(c => c.Key);
+            options.Schema.For<DocumentDocument>().FullTextIndex(c => c.FileNameWithoutExtension);
         });
 
         var querySessionDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IQuerySession));

@@ -26,4 +26,9 @@ public class S3Store : IStoreFile
 
         await _s3Client.PutObjectAsync(request);
     }
+
+    public Task<Stream> GetStreamAsync(string key, CancellationToken cancellationToker = default)
+    {
+        return _s3Client.GetObjectStreamAsync(_s3Options.BucketName, key, new Dictionary<string, object>());
+    }
 }
