@@ -84,7 +84,7 @@ namespace Doc.Management.UnitTests.Domain.Documents
         [Xunit.TraitAttribute("FeatureTitle", "Document")]
         [Xunit.TraitAttribute("Description", "The user create a document")]
         [Xunit.TraitAttribute("Category", "document")]
-        [Xunit.InlineDataAttribute("key", "testuser", "MyDocument", "file", "ext", new string[0])]
+        [Xunit.InlineDataAttribute("2024/06/26/kdakkozakokdoza", "testuser", "MyDocument", "file", "ext", new string[0])]
         public void TheUserCreateADocument(string key, string userid, string documentName, string filename, string extension, string[] exampleTags)
         {
             string[] @__tags = new string[] {
@@ -129,7 +129,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Document")]
         [Xunit.TraitAttribute("Description", "A user delete a document")]
         [Xunit.TraitAttribute("Category", "document")]
-        [Xunit.InlineDataAttribute("key", "MyDocument", "file", "ext", new string[0])]
+        [Xunit.InlineDataAttribute("2024/06/26/kdakkozakokdoza", "MyDocument", "file", "ext", new string[0])]
         public void AUserDeleteADocument(string key, string documentName, string filename, string extension, string[] exampleTags)
         {
             string[] @__tags = new string[] {

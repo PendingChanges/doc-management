@@ -28,7 +28,7 @@ public class CreateDocumentHandlerShould
         //Arrange
         var ownerId = new UserId("user id");
         var handler = new CreateDocumentHandler(_eventWriterMock.Object, _aggregateReaderMock.Object);
-        var command = new CreateDocument(DocumentKey.Parse("key"),"name", "filename", "ext");
+        var command = new CreateDocument(DocumentKey.Parse("2024/06/01/4949949"),"name", "filename", "ext");
         var wrappedCommand = new WrappedCommand<CreateDocument, Document>(command, ownerId);
 
         //Act

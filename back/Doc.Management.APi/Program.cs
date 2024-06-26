@@ -9,14 +9,6 @@ using Doc.Management;
 using Journalist.Crm.Api.Infrastructure;
 using Doc.Management.S3;
 using Microsoft.Extensions.Configuration;
-using Doc.Management.Documents.Commands;
-using Doc.Management.ValueObjects;
-using System.IO;
-using System.Threading;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using Doc.Management.Documents;
-using Microsoft.AspNetCore.Http;
 using Doc.Management.Api.Documents;
 
 Log.Logger = new LoggerConfiguration()
@@ -57,4 +49,4 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.Run();
+await app.RunAsync();

@@ -106,7 +106,7 @@ internal static class Endpoints
 
         using (var stream = new MemoryStream())
         {
-            await uploadFile.CopyToAsync(stream);
+            await uploadFile.CopyToAsync(stream, cancellationToken);
 
             await fileStore.UploadStreamAsync(stream, key, cancellationToken).ConfigureAwait(false);
         }

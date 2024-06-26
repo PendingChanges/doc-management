@@ -24,11 +24,11 @@ public class S3Store : IStoreFile
             BucketName = _s3Options.BucketName
         };
 
-        await _s3Client.PutObjectAsync(request);
+        await _s3Client.PutObjectAsync(request, cancellationToken);
     }
 
-    public Task<Stream> GetStreamAsync(string key, CancellationToken cancellationToker = default)
+    public Task<Stream> GetStreamAsync(string key, CancellationToken cancellationToken = default)
     {
-        return _s3Client.GetObjectStreamAsync(_s3Options.BucketName, key, new Dictionary<string, object>());
+        return _s3Client.GetObjectStreamAsync(_s3Options.BucketName, key, new Dictionary<string, object>(), cancellationToken);
     }
 }

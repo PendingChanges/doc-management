@@ -10,7 +10,7 @@ Scenario: The user create a document
 	
 Examples:
 	| key | userid   | documentName | filename | extension |
-	| key | testuser | MyDocument   | file     | ext       |
+	| 2024/06/26/kdakkozakokdoza | testuser | MyDocument   | file     | ext       |
 
 @document
 Scenario: A user delete a document
@@ -21,4 +21,4 @@ Scenario: A user delete a document
 
 Examples:
 	| key | documentName | filename | extension |
-	| key | MyDocument   | file     | ext       |
+	| 2024/06/26/kdakkozakokdoza | MyDocument   | file     | ext       |

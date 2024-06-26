@@ -16,7 +16,7 @@ public sealed class Document : Aggregate
 
     public bool Deleted { get; private set; }
 
-    public Version DocumentVersion { get; private set; }
+    public Version DocumentVersion { get; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public Document() { }
@@ -60,7 +60,7 @@ public sealed class Document : Aggregate
         IncrementVersion();
     }
 
-    private void Apply(DocumentDeleted @event)
+    private void Apply(DocumentDeleted _)
     {
         Deleted = true;
         IncrementVersion();
