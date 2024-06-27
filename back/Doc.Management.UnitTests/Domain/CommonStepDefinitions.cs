@@ -17,7 +17,7 @@ namespace Doc.Management.UnitTests.Domain
         public void ThenAnErrorWithCodeIsRaised(string errorCode)
         {
             Assert.NotNull(_aggregateContext.Aggregate);
-            var error = _aggregateContext.GetErrors().FirstOrDefault(e => e.Code == errorCode);
+            var error = _aggregateContext.GetErrors().Find(e => e.Code == errorCode);
 
             Assert.NotNull(error);
         }

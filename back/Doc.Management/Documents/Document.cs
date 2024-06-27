@@ -60,7 +60,9 @@ public sealed class Document : Aggregate
         IncrementVersion();
     }
 
+#pragma warning disable S1172 // Unused method parameters should be removed
     private void Apply(DocumentDeleted _)
+#pragma warning restore S1172 // Unused method parameters should be removed
     {
         Deleted = true;
         IncrementVersion();

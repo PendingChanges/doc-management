@@ -61,9 +61,6 @@ public class DeleteDocumentHandlerShould
         Assert.Single(exception.DomainErrors);
         var domainError = exception.DomainErrors.FirstOrDefault();
         Assert.NotNull(domainError);
-        if (domainError != null)
-        {
-            Assert.Equal(Errors.AggregateNotFound.CODE, domainError.Code);
-        }
+        Assert.Equal(Errors.AggregateNotFound.CODE, domainError.Code);
     }
 }
