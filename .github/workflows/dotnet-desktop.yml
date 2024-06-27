@@ -37,12 +37,20 @@ jobs:
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Install dotnet-coverage globally
+        run: |
+          dotnet tool install -g dotnet-coverage
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PendingChanges_doc-management" /o:"pendingchanges" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build ./back/Doc.Management.sln
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PendingChanges_doc-management" 
+                            /o:"pendingchanges" 
+                            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" 
+                            /d:sonar.host.url="https://sonarcloud.io"
+                            /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          dotnet build ./back/Doc.Management.sln --no-incremental
+          dotnet-coverage collect "dotnet test ./back/Doc.Management.sln" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
