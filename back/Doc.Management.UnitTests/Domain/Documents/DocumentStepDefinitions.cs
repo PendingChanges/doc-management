@@ -4,7 +4,6 @@ using Xunit;
 using Doc.Management.Documents.Events;
 using Doc.Management.Documents;
 using Doc.Management.ValueObjects;
-using System.Xml.Linq;
 
 namespace Doc.Management.UnitTests.Domain.Documents;
 
@@ -50,13 +49,6 @@ public class DocumentStepDefinitions
         Assert.Equal(file, @event.FileNameWithoutExtension);
         Assert.Equal(userId, @event.UserId);
         Assert.Equal(documentAggregate.Key, @event.Key);
-    }
-
-
-    [Given(@"An existing document with key ""([^""]*)""")]
-    public void GivenAnExistingDocumentWithKey(string key)
-    {
-        throw new PendingStepException();
     }
 
     [Given(@"An existing document with key ""([^""]*)"", name ""([^""]*)"", file ""([^""]*)"" and extension ""([^""]*)""")]
