@@ -4,6 +4,7 @@ using Xunit;
 using Doc.Management.Documents.Events;
 using Doc.Management.Documents;
 using Doc.Management.ValueObjects;
+using System;
 
 namespace Doc.Management.UnitTests.Domain.Documents;
 
@@ -18,7 +19,7 @@ public class DocumentStepDefinitions
     }
 
     [Given(@"No existing document")]
-    public void GivenNoExistingDocument()
+    public static void GivenNoExistingDocument()
     {
         //Nothing to do here
     }
@@ -38,6 +39,8 @@ public class DocumentStepDefinitions
         Assert.NotNull(documentAggregate);
         Assert.Equal(file, documentAggregate.FileNameWIthoutExtension);
         Assert.Equal(name, documentAggregate.Name);
+        Assert.Equal(ext, documentAggregate.Extension);
+        Assert.Equal(new Version(1, 0), documentAggregate.DocumentVersion);
 
         var events = _aggregateContext.GetEvents();
         Assert.Single(events);
@@ -48,6 +51,7 @@ public class DocumentStepDefinitions
         Assert.Equal(ext, @event.Extension);
         Assert.Equal(file, @event.FileNameWithoutExtension);
         Assert.Equal(userId, @event.UserId);
+        Assert.Equal(new Version(1, 0), @event.Version);
         Assert.Equal(documentAggregate.Key, @event.Key);
     }
 
@@ -83,6 +87,6 @@ public class DocumentStepDefinitions
         var @event = events.LastOrDefault() as DocumentDeleted;
 
         Assert.NotNull(@event);
-        Assert.Equal(documentAggregate.Key, @event.Key);
+        Assert.Equal(documentAggregate.Id, @event.Id);
     }
 }

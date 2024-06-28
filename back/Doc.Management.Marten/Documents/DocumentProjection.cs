@@ -11,5 +11,5 @@ public class DocumentProjection : EventProjection
         => new(documentCreated.Id, documentCreated.Key, documentCreated.Name, documentCreated.FileNameWithoutExtension, documentCreated.Extension, documentCreated.Version);
 
     public static void Project(DocumentDeleted @event, IDocumentOperations ops)
-        => ops.Delete<DocumentDocument>(@event.Key);
+        => ops.Delete<DocumentDocument>(@event.Id);
 }

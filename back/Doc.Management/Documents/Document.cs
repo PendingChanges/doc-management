@@ -16,7 +16,7 @@ public sealed class Document : Aggregate
 
     public bool Deleted { get; private set; }
 
-    public Version DocumentVersion { get; }
+    public Version DocumentVersion { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public Document() { }
@@ -40,7 +40,7 @@ public sealed class Document : Aggregate
     {
         var result = AggregateResult.Create();
 
-        var @event = new DocumentDeleted(Key, userId);
+        var @event = new DocumentDeleted(Id, userId);
         Apply(@event);
         result.AddEvent(@event);
 
@@ -56,6 +56,7 @@ public sealed class Document : Aggregate
         FileNameWIthoutExtension = @event.FileNameWithoutExtension;
         Extension = @event.Extension;
         Deleted = false;
+        DocumentVersion = @event.Version;
 
         IncrementVersion();
     }
