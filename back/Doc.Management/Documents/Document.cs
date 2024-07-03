@@ -1,7 +1,7 @@
-﻿using Doc.Management.CQRS;
+﻿using System;
+using Doc.Management.CQRS;
 using Doc.Management.Documents.Events;
 using Doc.Management.ValueObjects;
-using System;
 
 namespace Doc.Management.Documents;
 
@@ -22,13 +22,27 @@ public sealed class Document : Aggregate
     public Document() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public AggregateResult Create(DocumentKey key, string name, string nameWithoutExtension, string extension, UserId ownerId)
+    public AggregateResult Create(
+        DocumentKey key,
+        string name,
+        string nameWithoutExtension,
+        string extension,
+        UserId ownerId
+    )
     {
         var result = AggregateResult.Create();
 
         var id = EntityId.NewEntityId();
 
-        var @event = new DocumentCreated(id, key, name, nameWithoutExtension, extension, ownerId, new Version(1, 0));
+        var @event = new DocumentCreated(
+            id,
+            key,
+            name,
+            nameWithoutExtension,
+            extension,
+            ownerId,
+            new Version(1, 0)
+        );
 
         Apply(@event);
         result.AddEvent(@event);
@@ -41,6 +55,34 @@ public sealed class Document : Aggregate
         var result = AggregateResult.Create();
 
         var @event = new DocumentDeleted(Id, userId);
+        Apply(@event);
+        result.AddEvent(@event);
+
+        return result;
+    }
+
+    public AggregateResult Modify(
+        DocumentKey key,
+        string name,
+        string fileNameWithoutExtension,
+        string extension,
+        UserId ownerId
+    )
+    {
+        var result = AggregateResult.Create();
+
+        var id = EntityId.NewEntityId();
+
+        var @event = new DocumentModified(
+            id,
+            key,
+            name,
+            fileNameWithoutExtension,
+            extension,
+            ownerId,
+            new Version(1, 0)
+        );
+
         Apply(@event);
         result.AddEvent(@event);
 

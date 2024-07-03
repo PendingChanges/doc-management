@@ -3,4 +3,10 @@ using Doc.Management.ValueObjects;
 
 namespace Doc.Management.Documents.Commands;
 
-public record ModifyDocument(EntityId Id, string Name) : ICommand;
+public record ModifyDocument(
+    EntityId DocumentId,
+    DocumentKey Key,
+    string Name,
+    string FileNameWithoutExtension,
+    string Extension
+) : ICommand;
