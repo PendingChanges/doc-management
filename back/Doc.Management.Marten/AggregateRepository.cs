@@ -1,8 +1,8 @@
-﻿using Doc.Management.CQRS;
-using Marten;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Doc.Management.CQRS;
+using Marten;
 
 namespace Doc.Management.Marten
 {
@@ -15,7 +15,12 @@ namespace Doc.Management.Marten
             _store = store;
         }
 
-        public async Task StoreAsync(string aggregateId, long version, IEnumerable<object> events, CancellationToken ct = default)
+        public async Task StoreAsync(
+            string aggregateId,
+            long version,
+            IEnumerable<object> events,
+            CancellationToken ct = default
+        )
         {
             await using var session = _store.LightweightSession();
 
@@ -27,11 +32,16 @@ namespace Doc.Management.Marten
         public async Task<T?> LoadAsync<T>(
             string id,
             int? version = null,
-            CancellationToken ct = default
-        ) where T : Aggregate
+            CancellationToken cancellationToken = default
+        )
+            where T : Aggregate
         {
             await using var session = _store.LightweightSession();
-            var aggregate = await session.Events.AggregateStreamAsync<T>(id, version ?? 0, token: ct);
+            var aggregate = await session.Events.AggregateStreamAsync<T>(
+                id,
+                version ?? 0,
+                token: cancellationToken
+            );
             return aggregate;
         }
     }

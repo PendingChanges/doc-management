@@ -89,6 +89,17 @@ public sealed class Document : Aggregate
         return result;
     }
 
+    private void Apply(DocumentModified @event)
+    {
+        Key = DocumentKey.Parse(@event.Key);
+        Name = @event.Name;
+        FileNameWIthoutExtension = @event.FileNameWithoutExtension;
+        Extension = @event.Extension;
+        DocumentVersion = @event.Version;
+
+        IncrementVersion();
+    }
+
     private void Apply(DocumentCreated @event)
     {
         SetId(new EntityId(@event.Id));
