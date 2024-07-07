@@ -1,5 +1,6 @@
 ﻿using System;
 using Doc.Management.CQRS;
+using Doc.Management.Documents.Commands;
 using Doc.Management.Documents.Events;
 using Doc.Management.ValueObjects;
 
@@ -66,6 +67,7 @@ public sealed class Document : Aggregate
         string name,
         string fileNameWithoutExtension,
         string extension,
+        VersionIncrementType versionIncrementType,
         UserId ownerId
     )
     {
@@ -80,7 +82,9 @@ public sealed class Document : Aggregate
             fileNameWithoutExtension,
             extension,
             ownerId,
-            new Version(1, 0)
+            versionIncrementType == VersionIncrementType.Major
+                ? new Version(DocumentVersion.Major + 1, 0)
+                : new Version(DocumentVersion.Major, DocumentVersion.Minor + 1)
         );
 
         Apply(@event);

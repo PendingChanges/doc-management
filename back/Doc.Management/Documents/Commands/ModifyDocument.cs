@@ -8,5 +8,6 @@ public record ModifyDocument(
     DocumentKey Key,
     string Name,
     string FileNameWithoutExtension,
-    string Extension
-) : ICommand;
+    string Extension,
+    VersionIncrementType VersionIncrementType
+) : ICommand { }
