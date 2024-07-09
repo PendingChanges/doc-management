@@ -156,8 +156,8 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 17
- testRunner.Given(string.Format("An existing document with key \"{0}\", name \"<name>\", file \"{1}\" and extension \"{2}" +
-                            "\"", key, filename, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given(string.Format("An existing document with key \"{0}\", name \"<name>\", filename \"{1}\" and extension " +
+                            "\"{2}\"", key, filename, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 18
  testRunner.When("A user delete the document", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -167,6 +167,56 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 20
  testRunner.And("No errors", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableTheoryAttribute(DisplayName="A user modifies a document")]
+        [Xunit.TraitAttribute("FeatureTitle", "Document")]
+        [Xunit.TraitAttribute("Description", "A user modifies a document")]
+        [Xunit.TraitAttribute("Category", "document")]
+        [Xunit.InlineDataAttribute("2024/06/26/kdakkozakokdoza", "testuser", "MyDocument", "file", "ext", "MyUpdatedDoc", "updatedfile", "newext", new string[0])]
+        public void AUserModifiesADocument(string key, string userid, string name, string filename, string extension, string newName, string newFilename, string newExtension, string[] exampleTags)
+        {
+            string[] @__tags = new string[] {
+                    "document"};
+            if ((exampleTags != null))
+            {
+                @__tags = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Concat(@__tags, exampleTags));
+            }
+            string[] tagsOfScenario = @__tags;
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            argumentsOfScenario.Add("key", key);
+            argumentsOfScenario.Add("userid", userid);
+            argumentsOfScenario.Add("name", name);
+            argumentsOfScenario.Add("filename", filename);
+            argumentsOfScenario.Add("extension", extension);
+            argumentsOfScenario.Add("newName", newName);
+            argumentsOfScenario.Add("newFilename", newFilename);
+            argumentsOfScenario.Add("newExtension", newExtension);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("A user modifies a document", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 27
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 28
+  testRunner.Given(string.Format("An existing document with key \"{0}\", name \"{1}\", filename \"{2}\" and extension \"{3" +
+                            "}\"", key, name, filename, extension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 29
+  testRunner.When(string.Format("A user with id \"{0}\" modifies the document with new name \"{1}\", new filename \"{2}" +
+                            "\", and new extension \"{3}\"", userid, newName, newFilename, newExtension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 30
+  testRunner.Then(string.Format("The document\'s name, filename, and extension are updated to \"{0}\", \"{1}\", and \"{2" +
+                            "}\" respectively", newName, newFilename, newExtension), ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

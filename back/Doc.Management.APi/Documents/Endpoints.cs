@@ -108,6 +108,7 @@ internal static class Endpoints
         [FromServices] IStoreFile fileStore,
         [FromServices] IContext context,
         IFormFile uploadFile,
+        VersionIncrementType versionIncrementType,
         CancellationToken cancellationToken = default
     )
     {
@@ -118,7 +119,8 @@ internal static class Endpoints
                 fileInfos.Key,
                 fileInfos.FileName,
                 Path.GetFileNameWithoutExtension(uploadFile.FileName),
-                fileInfos.Extension
+                fileInfos.Extension,
+                versionIncrementType
             ),
             context.UserId
         );

@@ -1,4 +1,6 @@
-﻿namespace Doc.Management.Documents.Commands;
+﻿using System.Text.Json.Serialization;
+
+namespace Doc.Management.Documents.Commands;
 
 public enum VersionIncrementType
 {

@@ -17,7 +17,7 @@ public sealed class Document : Aggregate
 
     public bool Deleted { get; private set; }
 
-    public Version DocumentVersion { get; private set; }
+    public DocumentVersion DocumentVersion { get; private set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public Document() { }
@@ -28,6 +28,7 @@ public sealed class Document : Aggregate
         string name,
         string nameWithoutExtension,
         string extension,
+        VersionIncrementType versionIncrementType,
         UserId ownerId
     )
     {
@@ -42,7 +43,7 @@ public sealed class Document : Aggregate
             nameWithoutExtension,
             extension,
             ownerId,
-            new Version(1, 0)
+            DocumentVersion.NewVersion(versionIncrementType)
         );
 
         Apply(@event);
@@ -82,9 +83,7 @@ public sealed class Document : Aggregate
             fileNameWithoutExtension,
             extension,
             ownerId,
-            versionIncrementType == VersionIncrementType.Major
-                ? new Version(DocumentVersion.Major + 1, 0)
-                : new Version(DocumentVersion.Major, DocumentVersion.Minor + 1)
+            DocumentVersion.Increment(versionIncrementType)
         );
 
         Apply(@event);
@@ -95,11 +94,11 @@ public sealed class Document : Aggregate
 
     private void Apply(DocumentModified @event)
     {
-        Key = DocumentKey.Parse(@event.Key);
+        Key = new DocumentKey(@event.Key);
         Name = @event.Name;
         FileNameWIthoutExtension = @event.FileNameWithoutExtension;
         Extension = @event.Extension;
-        DocumentVersion = @event.Version;
+        DocumentVersion = new DocumentVersion(@event.Version);
 
         IncrementVersion();
     }
@@ -108,12 +107,12 @@ public sealed class Document : Aggregate
     {
         SetId(new EntityId(@event.Id));
 
-        Key = DocumentKey.Parse(@event.Key);
+        Key = new DocumentKey(@event.Key);
         Name = @event.Name;
         FileNameWIthoutExtension = @event.FileNameWithoutExtension;
         Extension = @event.Extension;
         Deleted = false;
-        DocumentVersion = @event.Version;
+        DocumentVersion = new DocumentVersion(@event.Version);
 
         IncrementVersion();
     }

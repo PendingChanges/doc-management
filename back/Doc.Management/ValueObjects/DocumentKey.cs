@@ -2,13 +2,17 @@
 using System.Text.RegularExpressions;
 
 namespace Doc.Management.ValueObjects;
+
 public record DocumentKey
 {
-
-    private static readonly Regex _documentKeyRegex = new Regex("^[0-9]{4}/[0-9]{2}/[0-9]{2}/.*$", RegexOptions.Compiled, TimeSpan.FromSeconds(5));
+    private static readonly Regex _documentKeyRegex = new Regex(
+        "^[0-9]{4}/[0-9]{2}/[0-9]{2}/.*$",
+        RegexOptions.Compiled,
+        TimeSpan.FromSeconds(5)
+    );
     private readonly string _value;
 
-    private DocumentKey(string value)
+    internal DocumentKey(string value)
     {
         _value = value;
     }
@@ -18,7 +22,9 @@ public record DocumentKey
     public static DocumentKey NewDocumentKey()
     {
         var now = DateTime.UtcNow;
-        return new DocumentKey($"{now.Year}/{now.ToString("MM")}/{now.ToString("dd")}/{Guid.NewGuid()}");
+        return new DocumentKey(
+            $"{now.Year}/{now.ToString("MM")}/{now.ToString("dd")}/{Guid.NewGuid()}"
+        );
     }
 
     public static DocumentKey Parse(string value)

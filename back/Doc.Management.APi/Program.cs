@@ -1,19 +1,20 @@
+using System.Text.Json.Serialization;
+using Doc.Management;
+using Doc.Management.Api.Documents;
+using Doc.Management.CommandHandlers;
+using Doc.Management.Marten;
+using Doc.Management.S3;
+using Journalist.Crm.Api.Infrastructure;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Doc.Management.CommandHandlers;
-using Serilog.Formatting.Compact;
 using Serilog;
-using Doc.Management.Marten;
-using Doc.Management;
-using Journalist.Crm.Api.Infrastructure;
-using Doc.Management.S3;
-using Microsoft.Extensions.Configuration;
-using Doc.Management.Api.Documents;
+using Serilog.Formatting.Compact;
 
 Log.Logger = new LoggerConfiguration()
-          .WriteTo.Console(new RenderedCompactJsonFormatter())
-          .CreateLogger();
+    .WriteTo.Console(new RenderedCompactJsonFormatter())
+    .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -26,13 +27,16 @@ s3ConfigurationSection.Bind(s3Options);
 
 builder.Services.Configure<S3Options>(s3ConfigurationSection);
 
-builder.Services.AddCommandHandlers()
-                .AddDocManagementMarten(configuration)
-                .AddS3(s3Options);
+builder.Services.AddCommandHandlers().AddDocManagementMarten(configuration).AddS3(s3Options);
 
-builder.Services.AddHttpContextAccessor()
-                     .AddTransient<IContext, Context>();
+builder.Services.AddHttpContextAccessor().AddTransient<IContext, Context>();
 
+builder
+    .Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAntiforgery();

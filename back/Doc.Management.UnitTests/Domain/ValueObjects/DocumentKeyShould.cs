@@ -1,8 +1,9 @@
-﻿using Doc.Management.ValueObjects;
-using System;
+﻿using System;
+using Doc.Management.ValueObjects;
 using Xunit;
 
 namespace Doc.Management.UnitTests.Domain.ValueObjects;
+
 public class DocumentKeyShould
 {
     [Theory]
@@ -12,7 +13,7 @@ public class DocumentKeyShould
         //Arrange
         //Act
         var documentKey = DocumentKey.Parse(key);
-        
+
         //Assert
         Assert.Equal(key, documentKey);
     }
@@ -25,5 +26,13 @@ public class DocumentKeyShould
         //Act
         //Assert
         Assert.Throws<ArgumentException>(() => DocumentKey.Parse(key));
+    }
+
+    [Fact]
+    public void GenerateNewKey()
+    {
+        var key = DocumentKey.NewDocumentKey();
+
+        Assert.NotEqual(string.Empty, key);
     }
 }
