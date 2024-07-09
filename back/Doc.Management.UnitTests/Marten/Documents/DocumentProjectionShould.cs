@@ -6,7 +6,7 @@ using Marten;
 using Moq;
 using Xunit;
 
-namespace Doc.Management.UnitTests.Marten;
+namespace Doc.Management.UnitTests.Marten.Documents;
 public class DocumentProjectionShould
 {
     [Fact]
@@ -15,7 +15,7 @@ public class DocumentProjectionShould
         //Arrange
         var fixture = new Fixture();
         var documentCreated = fixture.Create<DocumentCreated>();
-        
+
         //Act
         var document = DocumentProjection.Create(documentCreated);
 
