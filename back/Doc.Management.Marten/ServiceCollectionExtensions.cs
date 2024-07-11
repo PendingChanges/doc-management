@@ -1,26 +1,31 @@
 ﻿using System;
-using Journalist.Crm.Marten.Clients;
+using System.Linq;
+using Doc.Management.CQRS;
+using Doc.Management.Documents;
+using Doc.Management.Documents.DataModels;
+using Doc.Management.Marten.Documents;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Linq;
-using Doc.Management.Marten.Documents;
-using Doc.Management.Documents.DataModels;
-using Doc.Management.CQRS;
-using Doc.Management.Documents;
 
 namespace Doc.Management.Marten;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDocManagementMarten(this IServiceCollection services, IConfigurationRoot configuration)
+    public static IServiceCollection AddDocManagementMarten(
+        this IServiceCollection services,
+        IConfigurationRoot configuration
+    )
     {
         services.AddMarten(options =>
         {
-            options.Connection(configuration.GetConnectionString("Marten") ?? throw new ArgumentException("missing connection string"));
+            options.Connection(
+                configuration.GetConnectionString("Marten")
+                    ?? throw new ArgumentException("missing connection string")
+            );
 
             // Events
             options.Events.StreamIdentity = StreamIdentity.AsString;
@@ -34,7 +39,9 @@ public static class ServiceCollectionExtensions
             options.Schema.For<DocumentDocument>().FullTextIndex(c => c.FileNameWithoutExtension);
         });
 
-        var querySessionDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IQuerySession));
+        var querySessionDescriptor = services.FirstOrDefault(descriptor =>
+            descriptor.ServiceType == typeof(IQuerySession)
+        );
 
         if (querySessionDescriptor != null)
         {
@@ -42,7 +49,9 @@ public static class ServiceCollectionExtensions
         }
         services.AddTransient(s => s.GetRequiredService<ISessionFactory>().QuerySession());
 
-        var documentSessionDescriptor = services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(IDocumentSession));
+        var documentSessionDescriptor = services.FirstOrDefault(descriptor =>
+            descriptor.ServiceType == typeof(IDocumentSession)
+        );
 
         if (documentSessionDescriptor != null)
         {

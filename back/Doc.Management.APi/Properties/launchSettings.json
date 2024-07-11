@@ -9,7 +9,7 @@
       "applicationUrl": "https://localhost:7282;http://localhost:5046",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ConnectionStrings__Marten": "",
+        "ConnectionStrings__Marten": "Host=localhost;Username=postgres;Port=5433;Password=postgres;Database=postgres",
         "S3__ServiceUrl": "",
         "S3__AccessKey": "",
         "S3__SecretKey": "",

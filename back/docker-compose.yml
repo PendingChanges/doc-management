@@ -1,0 +1,19 @@
+version: '3'
+services:
+    localstack:
+        image: localstack/localstack:1.0.4
+        ports:
+            - "4567:4566"
+        environment:
+            - SERVICES=s3:4566
+            - HOSTNAME=localhost
+            - HOSTNAME_EXTERNAL=localhost
+            - DEFAULT_REGION=us-east-2
+    postgresql:
+        image: "postgres:latest"
+        ports:
+            - "5433:5432"
+        environment:
+            - POSTGRES_DATABASE=postgres
+            - POSTGRES_USER=postgres
+              - POSTGRES_PASSWORD=postgres

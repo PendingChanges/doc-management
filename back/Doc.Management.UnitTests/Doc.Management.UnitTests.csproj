@@ -2,13 +2,15 @@
 	<PropertyGroup>
 		<IsPackable>false</IsPackable>
 	</PropertyGroup>
-
+	
 	<ItemGroup>
+		<PackageReference Include="Alba" Version="7.4.1" />
 		<PackageReference Include="AutoFixture.Xunit2" Version="4.18.1" />
 		<PackageReference Include="coverlet.msbuild" Version="6.0.2">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
 		<PackageReference Include="Moq" Version="4.20.70" />
 		<PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
@@ -24,6 +26,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Doc.Management.APi\Doc.Management.Api.csproj" />
 	  <ProjectReference Include="..\Doc.Management.CommandHandlers\Doc.Management.CommandHandlers.csproj" />
 	  <ProjectReference Include="..\Doc.Management.Marten\Doc.Management.Marten.csproj" />
 	  <ProjectReference Include="..\Doc.Management\Doc.Management.csproj" />

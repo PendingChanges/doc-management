@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DD827591-1E62-434A-A712-B9F7BCDD7FC3}"
 	ProjectSection(SolutionItems) = preProject
 		Directory.Build.props = Directory.Build.props
+		docker-compose.yml = docker-compose.yml
 		..\Dockerfile = ..\Dockerfile
 	EndProjectSection
 EndProject
@@ -15,11 +16,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doc.Management.UnitTests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doc.Management.CommandHandlers", "Doc.Management.CommandHandlers\Doc.Management.CommandHandlers.csproj", "{3021C930-D9F1-4A19-AC81-27F62B4E7873}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doc.Management.Api", "Doc.Management.APi\Doc.Management.Api.csproj", "{734F99FB-8F7D-49C7-A443-8A7CB831EAA4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doc.Management.Api", "Doc.Management.APi\Doc.Management.Api.csproj", "{734F99FB-8F7D-49C7-A443-8A7CB831EAA4}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doc.Management.Marten", "Doc.Management.Marten\Doc.Management.Marten.csproj", "{884DFD33-6C9F-4221-A2CC-9EF0C0B391D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doc.Management.S3", "Doc.Management.S3\Doc.Management.S3.csproj", "{0A356368-2D29-45F7-AF98-C2103274A4DF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Doc.Management.S3", "Doc.Management.S3\Doc.Management.S3.csproj", "{0A356368-2D29-45F7-AF98-C2103274A4DF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
