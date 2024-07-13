@@ -10,10 +10,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ConnectionStrings__Marten": "Host=localhost;Username=postgres;Port=5433;Password=postgres;Database=postgres",
-        "S3__ServiceUrl": "",
-        "S3__AccessKey": "",
-        "S3__SecretKey": "",
-        "S3__BucketName": "doc-management-test"
+        "S3__ServiceUrl": "http://s3.us-east-2.localhost.localstack.cloud:4566",
+        "S3__AccessKey": "test",
+        "S3__SecretKey": "test",
+        "S3__BucketName": "document-storage"
       }
     }
   }

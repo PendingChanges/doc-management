@@ -3,7 +3,7 @@ services:
     localstack:
         image: localstack/localstack:1.0.4
         ports:
-            - "4567:4566"
+            - "127.0.0.1:4566:4566"
         environment:
             - SERVICES=s3:4566
             - HOSTNAME=localhost
