@@ -112,7 +112,7 @@ internal static class Endpoints
         CancellationToken cancellationToken = default
     )
     {
-        var fileInfos = await StoreFile(uploadFile, fileStore);
+        var fileInfos = await StoreFile(uploadFile, fileStore, cancellationToken);
 
         var command = new WrappedCommand<CreateDocument, Document>(
             new CreateDocument(
@@ -149,7 +149,7 @@ internal static class Endpoints
         CancellationToken cancellationToken = default
     )
     {
-        var fileInfos = await StoreFile(uploadFile, fileStore);
+        var fileInfos = await StoreFile(uploadFile, fileStore, cancellationToken);
 
         var command = new WrappedCommand<ModifyDocument, Document>(
             new ModifyDocument(
