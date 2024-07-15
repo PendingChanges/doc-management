@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Doc.Management.CQRS;
@@ -16,7 +17,7 @@ namespace Doc.Management.Marten
         }
 
         public async Task StoreAsync(
-            string aggregateId,
+            Guid aggregateId,
             long version,
             IEnumerable<object> events,
             CancellationToken ct = default
@@ -30,7 +31,7 @@ namespace Doc.Management.Marten
         }
 
         public async Task<T?> LoadAsync<T>(
-            string id,
+            Guid id,
             int? version = null,
             CancellationToken cancellationToken = default
         )

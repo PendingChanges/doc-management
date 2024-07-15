@@ -1,10 +1,11 @@
-﻿using Doc.Management.CQRS;
+﻿using System;
+using Doc.Management.CQRS;
 using Doc.Management.ValueObjects;
 
 namespace Doc.Management.Documents.Commands;
 
 public record ModifyDocument(
-    EntityId DocumentId,
+    Guid DocumentId,
     DocumentKey Key,
     string Name,
     string FileNameWithoutExtension,

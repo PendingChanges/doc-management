@@ -36,7 +36,7 @@ public class DocumentStepDefinitions
     )
     {
         var aggregate = new Document();
-        _aggregateContext.Result = aggregate.Create(
+        _aggregateContext.Result = aggregate.CreateDocument(
             DocumentKey.Parse(key),
             name,
             file,
@@ -88,7 +88,7 @@ public class DocumentStepDefinitions
     )
     {
         var aggregate = new Document();
-        aggregate.Create(
+        aggregate.CreateDocument(
             DocumentKey.Parse(key),
             name,
             file,

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,7 +31,7 @@ public class DeleteDocumentHandlerShould
         //Arrange
         var ownerId = new UserId("user id");
         var aggregate = new Document();
-        aggregate.Create(
+        aggregate.CreateDocument(
             DocumentKey.NewDocumentKey(),
             "name",
             "filename",
@@ -41,7 +42,7 @@ public class DeleteDocumentHandlerShould
         _aggregateReaderMock
             .Setup(_ =>
                 _.LoadAsync<Document>(
-                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
                     It.IsAny<int?>(),
                     It.IsAny<CancellationToken>()
                 )
@@ -73,11 +74,11 @@ public class DeleteDocumentHandlerShould
     {
         //Arrange
         var ownerId = new UserId("user id");
-        var aggregateId = EntityId.NewEntityId();
+        var aggregateId = Guid.NewGuid();
         _aggregateReaderMock
             .Setup(_ =>
                 _.LoadAsync<Document>(
-                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
                     It.IsAny<int?>(),
                     It.IsAny<CancellationToken>()
                 )

@@ -22,20 +22,20 @@ public class DocumentProjection : EventProjection
     public static void Project(DocumentDeleted @event, IDocumentOperations ops) =>
         ops.Delete<DocumentDocument>(@event.Id);
 
-    public static async Task Project(DocumentModified documentModified, IDocumentOperations ops)
+    public static async Task Project(DocumentModified @event, IDocumentOperations ops)
     {
         var document = await ops.Query<DocumentDocument>()
-            .SingleOrDefaultAsync(c => c.Id == documentModified.Id);
+            .SingleOrDefaultAsync(c => c.Id == @event.Id);
 
         if (document != null)
         {
             var documentUpdated = document with
             {
-                Name = documentModified.Name,
-                Extension = documentModified.Extension,
-                Key = documentModified.Key,
-                FileNameWithoutExtension = documentModified.FileNameWithoutExtension,
-                Version = documentModified.Version
+                Name = @event.Name,
+                Extension = @event.Extension,
+                Key = @event.Key,
+                FileNameWithoutExtension = @event.FileNameWithoutExtension,
+                Version = @event.Version
             };
 
             ops.Store(documentUpdated);

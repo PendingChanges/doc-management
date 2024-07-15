@@ -1,10 +1,9 @@
 ﻿using System;
-using Doc.Management.ValueObjects;
 
 namespace Doc.Management.Documents.Events;
 
 public sealed record DocumentModified(
-    string Id,
+    Guid Id,
     string Key,
     string Name,
     string FileNameWithoutExtension,

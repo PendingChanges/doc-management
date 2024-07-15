@@ -21,10 +21,13 @@ public class AppFixture : IAsyncLifetime
             "ConnectionStrings__Marten",
             $"Host=localhost;Port=5433;Username=postgres;Password=postgres"
         );
-        Environment.SetEnvironmentVariable("S3__ServiceUrl", $"https://localhost:4567");
+        Environment.SetEnvironmentVariable(
+            "S3__ServiceUrl",
+            $"http://s3.us-east-2.localhost.localstack.cloud:4566"
+        );
         Environment.SetEnvironmentVariable("S3__AccessKey", $"test");
         Environment.SetEnvironmentVariable("S3__SecretKey", $"test");
-        Environment.SetEnvironmentVariable("S3__BucketName", $"doc-management-test");
+        Environment.SetEnvironmentVariable("S3__BucketName", $"document-storage");
 
         Host = await AlbaHost.For<Program>(b =>
         {

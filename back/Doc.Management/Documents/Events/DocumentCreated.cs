@@ -4,7 +4,7 @@ using Doc.Management.ValueObjects;
 namespace Doc.Management.Documents.Events;
 
 public sealed record DocumentCreated(
-    string Id,
+    Guid Id,
     string Key,
     string Name,
     string FileNameWithoutExtension,

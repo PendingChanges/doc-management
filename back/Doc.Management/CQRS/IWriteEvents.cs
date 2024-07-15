@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -6,6 +7,11 @@ namespace Doc.Management.CQRS
 {
     public interface IWriteEvents
     {
-        Task StoreAsync(string aggregateId, long version, IEnumerable<object> events, CancellationToken ct = default);
+        Task StoreAsync(
+            Guid aggregateId,
+            long version,
+            IEnumerable<object> events,
+            CancellationToken ct = default
+        );
     }
 }

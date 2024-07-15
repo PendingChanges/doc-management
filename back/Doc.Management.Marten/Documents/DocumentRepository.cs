@@ -20,7 +20,7 @@ public class DocumentRepository : IReadDocuments
     }
 
     public Task<DocumentDocument?> GetDocumentByIdAsync(
-        string id,
+        Guid id,
         Version? version,
         CancellationToken cancellationToken = default
     )

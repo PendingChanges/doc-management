@@ -34,7 +34,7 @@ public class AggregateRepositoryShould
     public async Task StoreEventsCorrectly()
     {
         // Arrange
-        var aggregateId = Guid.NewGuid().ToString();
+        var aggregateId = Guid.NewGuid();
         var version = 1L;
         var events = new List<object> { new { Name = "TestEvent" } };
         var cancellationToken = new CancellationToken();
@@ -51,7 +51,7 @@ public class AggregateRepositoryShould
     public async Task LoadAggregateCorrectly()
     {
         // Arrange
-        var aggregateId = Guid.NewGuid().ToString();
+        var aggregateId = Guid.NewGuid();
         var cancellationToken = CancellationToken.None;
         var expectedAggregate = new Mock<Aggregate>().Object;
 

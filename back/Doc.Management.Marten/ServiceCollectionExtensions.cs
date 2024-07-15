@@ -28,7 +28,7 @@ public static class ServiceCollectionExtensions
             );
 
             // Events
-            options.Events.StreamIdentity = StreamIdentity.AsString;
+            options.Events.StreamIdentity = StreamIdentity.AsGuid;
 
             // Projections
             options.Projections.Add(new DocumentProjection(), ProjectionLifecycle.Inline);

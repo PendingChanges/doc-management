@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -29,7 +30,7 @@ public class ModifyDocumentHandlerShould
         // Arrange
         var ownerId = new UserId("user id");
         var aggregate = new Document();
-        aggregate.Create(
+        aggregate.CreateDocument(
             DocumentKey.NewDocumentKey(),
             "name",
             "filename",
@@ -40,7 +41,7 @@ public class ModifyDocumentHandlerShould
         _aggregateReaderMock
             .Setup(_ =>
                 _.LoadAsync<Document>(
-                    It.IsAny<string>(),
+                    It.IsAny<Guid>(),
                     It.IsAny<int?>(),
                     It.IsAny<CancellationToken>()
                 )

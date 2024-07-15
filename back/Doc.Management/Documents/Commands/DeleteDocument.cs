@@ -1,6 +1,6 @@
-﻿using Doc.Management.CQRS;
-using Doc.Management.ValueObjects;
+﻿using System;
+using Doc.Management.CQRS;
 
 namespace Doc.Management.Documents.Commands;
 
-public record DeleteDocument(EntityId Id) : ICommand;
+public record DeleteDocument(Guid Id) : ICommand;

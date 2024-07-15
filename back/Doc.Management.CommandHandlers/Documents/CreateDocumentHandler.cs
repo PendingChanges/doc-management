@@ -17,7 +17,7 @@ namespace Doc.Management.CommandHandlers.Documents
             CreateDocument command,
             UserId ownerId
         ) =>
-            aggregate.Create(
+            aggregate.CreateDocument(
                 command.Key,
                 command.Name,
                 command.FileNameWithoutExtension,

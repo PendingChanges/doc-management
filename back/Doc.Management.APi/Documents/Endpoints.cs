@@ -58,7 +58,7 @@ internal static class Endpoints
     private static async Task<Results<FileStreamHttpResult, NotFound>> GetDocument(
         [FromServices] IReadDocuments documentReader,
         [FromServices] IStoreFile fileStore,
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         [FromQuery] string? version,
         CancellationToken cancellationToken = default
     )
@@ -84,7 +84,7 @@ internal static class Endpoints
 
     private static async Task<Results<Ok<DocumentDocument>, NotFound>> GetDocumentData(
         [FromServices] IReadDocuments documentReader,
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         [FromQuery] string? version,
         CancellationToken cancellationToken = default
     )
@@ -143,7 +143,7 @@ internal static class Endpoints
         [FromServices] IMediator mediator,
         [FromServices] IStoreFile fileStore,
         [FromServices] IContext context,
-        [FromRoute] string id,
+        [FromRoute] Guid id,
         IFormFile uploadFile,
         VersionIncrementType versionIncrementType,
         CancellationToken cancellationToken = default
@@ -153,7 +153,7 @@ internal static class Endpoints
 
         var command = new WrappedCommand<ModifyDocument, Document>(
             new ModifyDocument(
-                new EntityId(id),
+                id,
                 fileInfos.Key,
                 fileInfos.FileName,
                 Path.GetFileNameWithoutExtension(uploadFile.FileName),

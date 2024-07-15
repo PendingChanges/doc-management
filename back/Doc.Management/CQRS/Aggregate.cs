@@ -1,4 +1,5 @@
-﻿using Doc.Management.ValueObjects;
+﻿using System;
+using Doc.Management.ValueObjects;
 
 namespace Doc.Management.CQRS
 {
@@ -8,7 +9,7 @@ namespace Doc.Management.CQRS
         /// Gets or sets the id
         /// warning: do not put the setter to private (used by Marten)
         /// </summary>
-        public EntityId Id { get; protected set; } = EntityId.Empty;
+        public Guid Id { get; protected set; } = Guid.Empty;
 
         /// <summary>
         /// Gets or sets the version
@@ -16,7 +17,7 @@ namespace Doc.Management.CQRS
         /// </summary>
         public long Version { get; set; }
 
-        protected void SetId(EntityId id) => Id = id;
+        protected void SetId(Guid id) => Id = id;
 
         protected void IncrementVersion() => Version++;
     }

@@ -23,7 +23,7 @@ public sealed class Document : Aggregate
     public Document() { }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-    public AggregateResult Create(
+    public AggregateResult CreateDocument(
         DocumentKey key,
         string name,
         string nameWithoutExtension,
@@ -34,7 +34,7 @@ public sealed class Document : Aggregate
     {
         var result = AggregateResult.Create();
 
-        var id = EntityId.NewEntityId();
+        var id = Guid.NewGuid();
 
         var @event = new DocumentCreated(
             id,
@@ -74,7 +74,7 @@ public sealed class Document : Aggregate
     {
         var result = AggregateResult.Create();
 
-        var id = EntityId.NewEntityId();
+        var id = Guid.NewGuid();
 
         var @event = new DocumentModified(
             id,
@@ -105,7 +105,7 @@ public sealed class Document : Aggregate
 
     private void Apply(DocumentCreated @event)
     {
-        SetId(new EntityId(@event.Id));
+        SetId(@event.Id);
 
         Key = new DocumentKey(@event.Key);
         Name = @event.Name;
@@ -118,7 +118,7 @@ public sealed class Document : Aggregate
     }
 
 #pragma warning disable S1172 // Unused method parameters should be removed
-    private void Apply(DocumentDeleted _)
+    private void Apply(DocumentDeleted @event)
 #pragma warning restore S1172 // Unused method parameters should be removed
     {
         Deleted = true;
