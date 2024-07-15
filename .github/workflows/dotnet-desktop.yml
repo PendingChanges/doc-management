@@ -40,6 +40,10 @@ jobs:
       - name: Install dotnet-coverage globally
         run: |
           dotnet tool install -g dotnet-coverage
+      - name: Run docker-compose
+        uses: hoverkraft-tech/compose-action@v2.0.1
+        with:
+          compose-file: "./back/docker-compose.yml"
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
