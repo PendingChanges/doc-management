@@ -38,7 +38,7 @@ public class DocumentProjection : EventProjection
                 Version = @event.Version
             };
 
-            ops.Store(documentUpdated);
+            ops.Update(documentUpdated);
         }
     }
 }

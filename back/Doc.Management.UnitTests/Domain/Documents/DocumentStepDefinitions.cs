@@ -170,6 +170,7 @@ public class DocumentStepDefinitions
 
         var documentModifiedEvent = events.LastOrDefault() as DocumentModified;
         Assert.NotNull(documentModifiedEvent);
+        Assert.Equal(documentAggregate.Id, documentModifiedEvent.Id);
         Assert.Equal(myUpdatedDoc, documentModifiedEvent.Name);
         Assert.Equal(updatedfile, documentModifiedEvent.FileNameWithoutExtension);
         Assert.Equal(newext, documentModifiedEvent.Extension);

@@ -1,4 +1,5 @@
 ﻿using AutoFixture;
+using Doc.Management.Documents;
 using Doc.Management.Documents.DataModels;
 using Doc.Management.Documents.Events;
 using Doc.Management.Marten.Documents;
@@ -7,6 +8,7 @@ using Moq;
 using Xunit;
 
 namespace Doc.Management.UnitTests.Marten.Documents;
+
 public class DocumentProjectionShould
 {
     [Fact]
@@ -30,13 +32,15 @@ public class DocumentProjectionShould
     }
 
     [Fact]
-    public void Delete()
+    public void Project_DocumentDeleted()
     {
         //Arrange
         var fixture = new Fixture();
         var documentDeleted = fixture.Create<DocumentDeleted>();
         var documentOperationsMock = new Mock<IDocumentOperations>();
-        documentOperationsMock.Setup(_ => _.Delete<DocumentDocument>(documentDeleted.Id)).Verifiable();
+        documentOperationsMock
+            .Setup(_ => _.Delete<DocumentDocument>(documentDeleted.Id))
+            .Verifiable();
 
         //Act
         DocumentProjection.Project(documentDeleted, documentOperationsMock.Object);

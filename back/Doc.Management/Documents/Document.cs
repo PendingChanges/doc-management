@@ -74,10 +74,8 @@ public sealed class Document : Aggregate
     {
         var result = AggregateResult.Create();
 
-        var id = Guid.NewGuid();
-
         var @event = new DocumentModified(
-            id,
+            Id,
             key,
             name,
             fileNameWithoutExtension,

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -29,7 +30,7 @@ public class EndpointsShould
     }
 
     [Fact]
-    public async Task CreateDocument_Then_GetIt()
+    public async Task Document_Lifecycle()
     {
         await using var host = await AlbaHost.For<global::Program>();
         await using var pdfFile = File.OpenRead("test.pdf");
@@ -60,6 +61,27 @@ public class EndpointsShould
 
         var documentRetrieved = await getResult.ReadAsJsonAsync<DocumentDocument>();
 
+        Assert.NotNull(documentRetrieved);
         Assert.Equal(documentCreated, documentRetrieved);
+
+        await host.Scenario(_ =>
+        {
+            _.Put.MultipartFormData(formData)
+                .QueryString("versionIncrementType", "Major")
+                .ToUrl($"{DocumentApiUrl}/{documentCreated.Id}");
+            _.StatusCodeShouldBeOk();
+        });
+
+        var getResult2 = await host.Scenario(_ =>
+        {
+            _.Get.Url($"{DocumentApiUrl}/{documentCreated.Id}/infos");
+            _.StatusCodeShouldBeOk();
+        });
+
+        var documentRetrieved2 = await getResult2.ReadAsJsonAsync<DocumentDocument>();
+
+        Assert.NotNull(documentRetrieved2);
+        Assert.Equal(new Version(2, 0), documentRetrieved2.Version);
+        // TODO check les autres propriétés
     }
 }
