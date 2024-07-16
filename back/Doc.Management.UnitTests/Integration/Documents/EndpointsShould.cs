@@ -4,6 +4,7 @@ using System.Net.Http.Headers;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using Alba;
+using Doc.Management.Documents.DataModels;
 using Xunit;
 
 namespace Doc.Management.UnitTests.Integration.Documents;
@@ -39,14 +40,26 @@ public class EndpointsShould
         using var formData = new MultipartFormDataContent();
         formData.Add(content, "uploadFile", pdfFileName);
 
-        // This runs an HTTP request and makes an assertion
-        // about the expected content of the response
-        var result = await host.Scenario(_ =>
+        var createResult = await host.Scenario(_ =>
         {
             _.Post.MultipartFormData(formData)
                 .QueryString("versionIncrementType", "Major")
                 .ToUrl(DocumentApiUrl);
             _.StatusCodeShouldBe(201);
         });
+
+        var documentCreated = await createResult.ReadAsJsonAsync<DocumentDocument>();
+
+        Assert.NotNull(documentCreated);
+
+        var getResult = await host.Scenario(_ =>
+        {
+            _.Get.Url($"{DocumentApiUrl}/{documentCreated.Id}/infos");
+            _.StatusCodeShouldBeOk();
+        });
+
+        var documentRetrieved = await getResult.ReadAsJsonAsync<DocumentDocument>();
+
+        Assert.Equal(documentCreated, documentRetrieved);
     }
 }
