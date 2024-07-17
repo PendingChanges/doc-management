@@ -82,6 +82,17 @@ public class EndpointsShould
 
         Assert.NotNull(documentRetrieved2);
         Assert.Equal(new Version(2, 0), documentRetrieved2.Version);
-        // TODO check les autres propriétés
+
+        await host.Scenario(_ =>
+        {
+            _.Delete.Url($"{DocumentApiUrl}/{documentCreated.Id}");
+            _.StatusCodeShouldBeOk();
+        });
+
+        var getResult3 = await host.Scenario(_ =>
+        {
+            _.Get.Url($"{DocumentApiUrl}/{documentCreated.Id}/infos");
+            _.StatusCodeShouldBe(404);
+        });
     }
 }
