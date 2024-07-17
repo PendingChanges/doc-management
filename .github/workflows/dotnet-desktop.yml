@@ -8,7 +8,30 @@ on:
 jobs:
   build:
     name: Build and analyze
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DATABASE: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5433:5432
+      localstack:
+        image: localstack/localstack:latest
+        env:
+          SERVICES: 's3:4566'
+          HOSTNAME: localhost
+          HOSTNAME_EXTERNAL: localhost
+          DEFAULT_REGION: us-east-2
+        ports:
+          - 4566:4566
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -33,24 +56,18 @@ jobs:
           restore-keys: ${{ runner.os }}-sonar-scanner
       - name: Install SonarCloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-        shell: powershell
         run: |
-          New-Item -Path .\.sonar\scanner -ItemType Directory
-          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+          mkdir -p ./.sonar/scanner
+          dotnet tool update dotnet-sonarscanner --tool-path ./.sonar/scanner
       - name: Install dotnet-coverage globally
         run: |
           dotnet tool install -g dotnet-coverage
-      - name: Run docker-compose
-        uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "./back/docker-compose.yml"
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"PendingChanges_doc-management" /o:"pendingchanges" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
+          ./.sonar/scanner/dotnet-sonarscanner begin /k:"PendingChanges_doc-management" /o:"pendingchanges" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build ./back/Doc.Management.sln --no-incremental
           dotnet-coverage collect "dotnet test ./back/Doc.Management.sln" -f xml -o "coverage.xml"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
