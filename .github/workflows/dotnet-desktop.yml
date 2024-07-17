@@ -70,4 +70,4 @@ jobs:
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"PendingChanges_doc-management" /o:"pendingchanges" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vscoveragexml.reportsPaths=coverage.xml
           dotnet build ./back/Doc.Management.sln --no-incremental
           dotnet-coverage collect "dotnet test ./back/Doc.Management.sln" -f xml -o "coverage.xml"
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
