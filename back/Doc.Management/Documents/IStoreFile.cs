@@ -14,4 +14,5 @@ public interface IStoreFile
 
     Task<Stream> GetStreamAsync(string key, CancellationToken cancellationToken = default);
     Task DeleteFileAsync(string key, CancellationToken cancellationToken);
+    Task CreateBucketAsync(string bucketName);
 }

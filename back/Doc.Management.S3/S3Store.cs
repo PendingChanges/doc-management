@@ -1,5 +1,6 @@
 ﻿using Amazon.S3;
 using Amazon.S3.Model;
+using Amazon.S3.Util;
 using Doc.Management.Documents;
 using Microsoft.Extensions.Options;
 
@@ -14,6 +15,20 @@ public class S3Store : IStoreFile
     {
         _s3Client = s3Client;
         _s3Options = s3OptionsSnapshot.Value;
+    }
+
+    public async Task CreateBucketAsync(string bucketName)
+    {
+        var request = new PutBucketRequest { BucketName = bucketName, UseClientRegion = true, };
+
+        var exists = await AmazonS3Util.DoesS3BucketExistV2Async(_s3Client, bucketName);
+
+        if (exists)
+        {
+            return;
+        }
+
+        await _s3Client.PutBucketAsync(request);
     }
 
     public async Task UploadStreamAsync(

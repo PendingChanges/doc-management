@@ -2,6 +2,7 @@ using System.Text.Json.Serialization;
 using Doc.Management;
 using Doc.Management.Api.Documents;
 using Doc.Management.CommandHandlers;
+using Doc.Management.Documents;
 using Doc.Management.Marten;
 using Doc.Management.S3;
 using Journalist.Crm.Api.Infrastructure;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Serilog;
 using Serilog.Formatting.Compact;
 
@@ -52,5 +54,15 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+using (var serciceScope = app.Services.CreateScope())
+{
+    var fileStore = serciceScope.ServiceProvider.GetRequiredService<IStoreFile>();
+    IOptionsSnapshot<S3Options> s3OptionsSnapshot = serciceScope.ServiceProvider.GetRequiredService<
+        IOptionsSnapshot<S3Options>
+    >();
+
+    await fileStore.CreateBucketAsync(s3OptionsSnapshot.Value.BucketName ?? "document-storage");
+}
 
 await app.RunAsync();
