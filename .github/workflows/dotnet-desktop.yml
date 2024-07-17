@@ -9,6 +9,20 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_DATABASE: postgres
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5433:5432     
     steps:
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -39,10 +53,6 @@ jobs:
       - name: Install dotnet-coverage globally
         run: |
           dotnet tool install -g dotnet-coverage
-      - name: Run docker-compose
-        uses: hoverkraft-tech/compose-action@v2.0.1
-        with:
-          compose-file: "./back/docker-compose.yml"
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
