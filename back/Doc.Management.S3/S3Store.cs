@@ -4,6 +4,7 @@ using Doc.Management.Documents;
 using Microsoft.Extensions.Options;
 
 namespace Doc.Management.S3;
+
 public class S3Store : IStoreFile
 {
     private readonly IAmazonS3 _s3Client;
@@ -15,7 +16,11 @@ public class S3Store : IStoreFile
         _s3Options = s3OptionsSnapshot.Value;
     }
 
-    public async Task UploadStreamAsync(Stream stream, string key, CancellationToken cancellationToken = default)
+    public async Task UploadStreamAsync(
+        Stream stream,
+        string key,
+        CancellationToken cancellationToken = default
+    )
     {
         var request = new PutObjectRequest
         {
@@ -27,8 +32,19 @@ public class S3Store : IStoreFile
         await _s3Client.PutObjectAsync(request, cancellationToken);
     }
 
-    public Task<Stream> GetStreamAsync(string key, CancellationToken cancellationToken = default)
-    {
-        return _s3Client.GetObjectStreamAsync(_s3Options.BucketName, key, new Dictionary<string, object>(), cancellationToken);
-    }
+    public Task<Stream> GetStreamAsync(string key, CancellationToken cancellationToken = default) =>
+        _s3Client.GetObjectStreamAsync(
+            _s3Options.BucketName,
+            key,
+            new Dictionary<string, object>(),
+            cancellationToken
+        );
+
+    public Task DeleteFileAsync(string key, CancellationToken cancellationToken) =>
+        _s3Client.DeleteAsync(
+            _s3Options.BucketName,
+            key,
+            new Dictionary<string, object>(),
+            cancellationToken
+        );
 }

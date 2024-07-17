@@ -4,6 +4,7 @@ using Doc.Management.Documents.Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Microsoft.VisualBasic;
 
 namespace Doc.Management.Marten.Documents;
 

@@ -34,6 +34,7 @@ internal static class Endpoints
         app.MapGet("api/documents/{id}/infos", GetDocumentData);
 
         app.MapGet("api/documents/{id}", GetDocument);
+        app.MapDelete("api/documents/{id}", DeleteDocument);
 
         app.MapGet("api/documents", GetDocuments);
 
@@ -80,6 +81,22 @@ internal static class Endpoints
             fileStream,
             fileDownloadName: $"{document.Name}.{document.Extension}"
         );
+    }
+
+    private static async Task<Ok> DeleteDocument(
+        [FromServices] IMediator mediator,
+        [FromServices] IContext context,
+        [FromRoute] Guid id,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var command = new WrappedCommand<DeleteDocument, Document>(
+            new DeleteDocument(id),
+            context.UserId
+        );
+        await mediator.Send(command, cancellationToken);
+
+        return TypedResults.Ok();
     }
 
     private static async Task<Results<Ok<DocumentDocument>, NotFound>> GetDocumentData(

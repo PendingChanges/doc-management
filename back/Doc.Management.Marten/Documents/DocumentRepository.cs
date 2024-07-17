@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Doc.Management.Documents;
 using Doc.Management.Documents.DataModels;
 using Marten;
-using Marten.Linq;
 using Marten.Pagination;
 
 namespace Doc.Management.Marten.Documents;
