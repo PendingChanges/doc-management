@@ -13,7 +13,11 @@
         "S3__ServiceUrl": "http://s3.us-east-2.localhost.localstack.cloud:4566",
         "S3__AccessKey": "test",
         "S3__SecretKey": "test",
-        "S3__BucketName": "document-storage"
+        "S3__BucketName": "document-storage",
+        "Keycloak__KeycloakUrlRealm": "https://app-38fe6a67-2a9e-4e27-b735-b3dd1c3e4698.cleverapps.io/realms/JOURNALIST-CRM",
+        "Keycloak_SslRequired": "None",
+        "Keycloak__Resource": "account",
+        "Keycloak__VerifyTokenAudience": "false"
       }
     }
   }

@@ -5,10 +5,12 @@
 	<ItemGroup>
 		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Doc.Management.CommandHandlers\Doc.Management.CommandHandlers.csproj" />
+	  <ProjectReference Include="..\Doc.Management.GraphQL\Doc.Management.GraphQL.csproj" />
 	  <ProjectReference Include="..\Doc.Management.Marten\Doc.Management.Marten.csproj" />
 	  <ProjectReference Include="..\Doc.Management.S3\Doc.Management.S3.csproj" />
 	</ItemGroup>

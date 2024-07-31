@@ -34,24 +34,7 @@ internal static class Endpoints
         app.MapGet("api/documents/{id}", GetDocument);
         app.MapDelete("api/documents/{id}", DeleteDocument);
 
-        app.MapGet("api/documents", GetDocuments);
-
         return app;
-    }
-
-    private static async Task<DocumentResultSet> GetDocuments(
-        [FromServices] IReadDocuments documentReader,
-        [FromQuery] int skip = 0,
-        [FromQuery] int take = 20,
-        [FromQuery] string sortBy = "name",
-        [FromQuery] string sortDirection = "asc"
-    )
-    {
-        var documentResultSet = await documentReader.GetDocumentsAsync(
-            new GetDocumentsRequest(skip, take, sortBy, sortDirection)
-        );
-
-        return documentResultSet;
     }
 
     private static async Task<Results<FileStreamHttpResult, NotFound>> GetDocument(

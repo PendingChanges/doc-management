@@ -16,20 +16,6 @@ public class EndpointsShould
     private const string DocumentApiUrl = "/api/documents";
 
     [Fact]
-    public async Task Return_Documents()
-    {
-        await using var host = await AlbaHost.For<global::Program>();
-
-        // This runs an HTTP request and makes an assertion
-        // about the expected content of the response
-        await host.Scenario(_ =>
-        {
-            _.Get.Url(DocumentApiUrl);
-            _.StatusCodeShouldBeOk();
-        });
-    }
-
-    [Fact]
     public async Task Document_Lifecycle()
     {
         await using var host = await AlbaHost.For<global::Program>();

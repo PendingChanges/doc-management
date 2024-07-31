@@ -28,6 +28,13 @@ public class AppFixture : IAsyncLifetime
         Environment.SetEnvironmentVariable("S3__AccessKey", $"test");
         Environment.SetEnvironmentVariable("S3__SecretKey", $"test");
         Environment.SetEnvironmentVariable("S3__BucketName", $"document-storage");
+        Environment.SetEnvironmentVariable(
+            "Keycloak__KeycloakUrlRealm",
+            $"https://app-38fe6a67-2a9e-4e27-b735-b3dd1c3e4698.cleverapps.io/realms/JOURNALIST-CRM"
+        );
+        Environment.SetEnvironmentVariable("Keycloak_SslRequired", $"None");
+        Environment.SetEnvironmentVariable("Keycloak__Resource", $"account");
+        Environment.SetEnvironmentVariable("Keycloak__VerifyTokenAudience", $"false");
 
         Host = await AlbaHost.For<Program>(b =>
         {

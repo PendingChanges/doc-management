@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Marten" Version="7.23.0" />
+    <PackageReference Include="Marten" Version="7.26.1" />
   </ItemGroup>
 
   <ItemGroup>
