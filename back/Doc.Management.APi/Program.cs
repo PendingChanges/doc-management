@@ -1,11 +1,11 @@
 using System.Text.Json.Serialization;
 using Doc.Management;
 using Doc.Management.Api.Documents;
+using Doc.Management.Api.Infrastructure;
 using Doc.Management.CommandHandlers;
 using Doc.Management.Documents;
 using Doc.Management.Marten;
 using Doc.Management.S3;
-using Journalist.Crm.Api.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

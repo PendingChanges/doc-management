@@ -2,7 +2,7 @@
 using Doc.Management.ValueObjects;
 using Microsoft.AspNetCore.Http;
 
-namespace Journalist.Crm.Api.Infrastructure
+namespace Doc.Management.Api.Infrastructure
 {
     public class Context : IContext
     {
@@ -13,6 +13,7 @@ namespace Journalist.Crm.Api.Infrastructure
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public UserId UserId => new(_httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "public");
+        public UserId UserId =>
+            new(_httpContextAccessor.HttpContext?.User?.Identity?.Name ?? "public");
     }
 }
