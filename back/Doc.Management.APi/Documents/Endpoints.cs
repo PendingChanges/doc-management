@@ -101,40 +101,44 @@ internal static class Endpoints
         return TypedResults.Ok(document);
     }
 
-    public static async Task<Results<Created<DocumentDocument>, BadRequest<string>>> CreateDocument(
+    public static async Task<Results<Created, BadRequest<string>>> CreateDocument(
         [FromServices] IMediator mediator,
         [FromServices] IStoreFile fileStore,
         [FromServices] IContext context,
-        IFormFile uploadFile,
+        IFormFileCollection files,
         VersionIncrementType versionIncrementType,
         CancellationToken cancellationToken = default
     )
     {
-        var fileInfos = await StoreFile(uploadFile, fileStore, cancellationToken);
+        //TODO: revoir cette méthode pour optimiser le multi upload
+        foreach (var file in files)
+        {
+            var fileInfos = await StoreFile(file, fileStore, cancellationToken);
 
-        var command = new WrappedCommand<CreateDocument, Document>(
-            new CreateDocument(
-                fileInfos.Key,
-                fileInfos.FileName,
-                Path.GetFileNameWithoutExtension(uploadFile.FileName),
-                fileInfos.Extension,
-                versionIncrementType
-            ),
-            context.UserId
-        );
+            var command = new WrappedCommand<CreateDocument, Document>(
+                new CreateDocument(
+                    fileInfos.Key,
+                    file.FileName,
+                    fileInfos.FileNameWithoutExtension,
+                    fileInfos.Extension,
+                    versionIncrementType
+                ),
+                context.UserId
+            );
 
-        var result = await mediator.Send(command, cancellationToken);
+            var result = await mediator.Send(command, cancellationToken);
 
-        var document = new DocumentDocument(
-            result.Id,
-            result.Key,
-            result.Name,
-            result.FileNameWIthoutExtension,
-            result.Extension,
-            result.DocumentVersion
-        );
+            var document = new DocumentDocument(
+                result.Id,
+                result.Key,
+                result.Name,
+                result.FileNameWIthoutExtension,
+                result.Extension,
+                result.DocumentVersion
+            );
+        }
 
-        return TypedResults.Created($"/documents/{result.Id}", document);
+        return TypedResults.Created();
     }
 
     public static async Task<Results<Ok, BadRequest<string>>> UpdateDocument(
@@ -153,8 +157,8 @@ internal static class Endpoints
             new ModifyDocument(
                 id,
                 fileInfos.Key,
-                fileInfos.FileName,
-                Path.GetFileNameWithoutExtension(uploadFile.FileName),
+                uploadFile.FileName,
+                fileInfos.FileNameWithoutExtension,
                 fileInfos.Extension,
                 versionIncrementType
             ),
@@ -177,7 +181,7 @@ internal static class Endpoints
             throw new ArgumentException("No file selected");
         }
 
-        var fileName = Path.GetFileNameWithoutExtension(uploadFile.FileName);
+        var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(uploadFile.FileName);
         var extension = Path.GetExtension(uploadFile.FileName).ToLowerInvariant();
 
         if (string.IsNullOrEmpty(extension))
@@ -194,8 +198,12 @@ internal static class Endpoints
             await fileStore.UploadStreamAsync(stream, key, cancellationToken).ConfigureAwait(false);
         }
 
-        return new(key, fileName, extension);
+        return new(key, fileNameWithoutExtension, extension);
     }
 }
 
-internal record struct FileInfos(DocumentKey Key, string FileName, string Extension) { }
+internal record struct FileInfos(
+    DocumentKey Key,
+    string FileNameWithoutExtension,
+    string Extension
+) { }

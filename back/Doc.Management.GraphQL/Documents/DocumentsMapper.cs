@@ -14,7 +14,6 @@ public static class DocumentsMapper
     public static Outputs.Document ToDocument(this DocumentDocument clientDocument) =>
         new(
             clientDocument.Id,
-            clientDocument.Key,
             clientDocument.Name,
             clientDocument.FileNameWithoutExtension,
             clientDocument.Extension,

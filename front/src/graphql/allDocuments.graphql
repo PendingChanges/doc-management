@@ -1,0 +1,19 @@
+query allDocuments($skip: Int, $take: Int) {
+  allDocuments(skip:$skip, take: $take) {
+    items {
+      extension
+      fileNameWithoutExtension
+      id
+      name
+      version {
+        major
+        minor
+      }
+    }
+    pageInfo{
+      hasNextPage
+      hasPreviousPage      
+    }
+    totalCount
+  }
+}
