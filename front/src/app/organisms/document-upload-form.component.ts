@@ -4,6 +4,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FileUploadEvent, FileUploadModule } from 'primeng/fileupload';
 import { MessageService } from 'primeng/api';
 import { NgFor, NgIf } from '@angular/common';
+import { environment } from '../../infrastructure/environments/environment.development';
 
 @Component({
   selector: 'app-document-upload-form',
@@ -12,10 +13,10 @@ import { NgFor, NgIf } from '@angular/common';
   providers: [MessageService],
   template: ` <p-fileUpload
     name="demo[]"
-    url="https://www.primefaces.org/cdn/api/upload.php"
+    [url]="uploadUrl"
     (onUpload)="onUpload($event)"
     [multiple]="true"
-    accept="image/*"
+    accept="image/*,application/pdf"
     maxFileSize="1000000"
   >
     <ng-template pTemplate="content">
@@ -30,6 +31,7 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class DocumentUploadFormComponent {
   visible = model<boolean>();
+  uploadUrl = environment.apiUrl + '/documents';
 
   confirm() {
     this.visible.update((v) => false);

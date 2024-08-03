@@ -28,7 +28,6 @@ public sealed class Document : Aggregate
         string name,
         string nameWithoutExtension,
         string extension,
-        VersionIncrementType versionIncrementType,
         UserId ownerId
     )
     {
@@ -43,7 +42,7 @@ public sealed class Document : Aggregate
             nameWithoutExtension,
             extension,
             ownerId,
-            DocumentVersion.NewVersion(versionIncrementType)
+            DocumentVersion.NewVersion(VersionIncrementType.Minor)
         );
 
         Apply(@event);

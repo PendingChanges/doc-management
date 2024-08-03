@@ -41,7 +41,6 @@ public class DocumentStepDefinitions
             name,
             file,
             ext,
-            Management.Documents.Commands.VersionIncrementType.Major,
             new UserId(userId)
         );
         _aggregateContext.Aggregate = aggregate;
@@ -62,7 +61,7 @@ public class DocumentStepDefinitions
         Assert.Equal(file, documentAggregate.FileNameWIthoutExtension);
         Assert.Equal(name, documentAggregate.Name);
         Assert.Equal(ext, documentAggregate.Extension);
-        Assert.Equal(new Version(1, 0), documentAggregate.DocumentVersion);
+        Assert.Equal(new Version(0, 1), documentAggregate.DocumentVersion);
 
         var events = _aggregateContext.GetEvents();
         Assert.Single(events);
@@ -73,7 +72,7 @@ public class DocumentStepDefinitions
         Assert.Equal(ext, @event.Extension);
         Assert.Equal(file, @event.FileNameWithoutExtension);
         Assert.Equal(userId, @event.UserId);
-        Assert.Equal(new Version(1, 0), @event.Version);
+        Assert.Equal(new Version(0, 1), @event.Version);
         Assert.Equal(documentAggregate.Key, @event.Key);
     }
 
@@ -88,14 +87,7 @@ public class DocumentStepDefinitions
     )
     {
         var aggregate = new Document();
-        aggregate.CreateDocument(
-            DocumentKey.Parse(key),
-            name,
-            file,
-            ext,
-            Management.Documents.Commands.VersionIncrementType.Major,
-            new UserId("osef")
-        );
+        aggregate.CreateDocument(DocumentKey.Parse(key), name, file, ext, new UserId("osef"));
         _aggregateContext.Aggregate = aggregate;
     }
 

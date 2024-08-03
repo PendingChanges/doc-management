@@ -8,6 +8,5 @@ public record CreateDocument(
     DocumentKey Key,
     string Name,
     string FileNameWithoutExtension,
-    string Extension,
-    VersionIncrementType VersionIncrementType
+    string Extension
 ) : ICommand;

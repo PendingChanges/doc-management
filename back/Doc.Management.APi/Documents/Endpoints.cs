@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -101,15 +102,18 @@ internal static class Endpoints
         return TypedResults.Ok(document);
     }
 
-    public static async Task<Results<Created, BadRequest<string>>> CreateDocument(
+    public static async Task<
+        Results<Created<DocumentDocument[]>, BadRequest<string>>
+    > CreateDocument(
         [FromServices] IMediator mediator,
         [FromServices] IStoreFile fileStore,
         [FromServices] IContext context,
         IFormFileCollection files,
-        VersionIncrementType versionIncrementType,
         CancellationToken cancellationToken = default
     )
     {
+        var results = new List<DocumentDocument>();
+
         //TODO: revoir cette méthode pour optimiser le multi upload
         foreach (var file in files)
         {
@@ -120,8 +124,7 @@ internal static class Endpoints
                     fileInfos.Key,
                     file.FileName,
                     fileInfos.FileNameWithoutExtension,
-                    fileInfos.Extension,
-                    versionIncrementType
+                    fileInfos.Extension
                 ),
                 context.UserId
             );
@@ -136,9 +139,11 @@ internal static class Endpoints
                 result.Extension,
                 result.DocumentVersion
             );
+
+            results.Add(document);
         }
 
-        return TypedResults.Created();
+        return TypedResults.Created("", results.ToArray());
     }
 
     public static async Task<Results<Ok, BadRequest<string>>> UpdateDocument(
@@ -146,18 +151,18 @@ internal static class Endpoints
         [FromServices] IStoreFile fileStore,
         [FromServices] IContext context,
         [FromRoute] Guid id,
-        IFormFile uploadFile,
+        IFormFile files,
         VersionIncrementType versionIncrementType,
         CancellationToken cancellationToken = default
     )
     {
-        var fileInfos = await StoreFile(uploadFile, fileStore, cancellationToken);
+        var fileInfos = await StoreFile(files, fileStore, cancellationToken);
 
         var command = new WrappedCommand<ModifyDocument, Document>(
             new ModifyDocument(
                 id,
                 fileInfos.Key,
-                uploadFile.FileName,
+                files.FileName,
                 fileInfos.FileNameWithoutExtension,
                 fileInfos.Extension,
                 versionIncrementType

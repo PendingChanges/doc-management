@@ -22,7 +22,6 @@ namespace Doc.Management.CommandHandlers.Documents
                 command.Name,
                 command.FileNameWithoutExtension,
                 command.Extension,
-                command.VersionIncrementType,
                 ownerId
             );
 

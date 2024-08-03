@@ -18,7 +18,10 @@ import { DocumentUploadFormComponent } from './document-upload-form.component';
       header="Upload Document"
       [modal]="true"
       [(visible)]="visible"
-      [style]="{ width: '25rem' }"
+      [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+      [style]="{ width: '50vw' }"
+      [draggable]="false"
+      [resizable]="false"
     >
       <app-document-upload-form
         [(visible)]="visible"
@@ -27,8 +30,6 @@ import { DocumentUploadFormComponent } from './document-upload-form.component';
   styles: '',
 })
 export class DocumentUploadButtonComponent {
-  uploadedFiles: any[] = [];
-
   visible: boolean = false;
 
   showDialog() {

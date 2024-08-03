@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Mime;
@@ -25,19 +26,18 @@ public class EndpointsShould
         using var content = new StreamContent(pdfFile);
         content.Headers.ContentType = new MediaTypeHeaderValue(MediaTypeNames.Application.Pdf);
         using var formData = new MultipartFormDataContent();
-        formData.Add(content, "uploadFile", pdfFileName);
+        formData.Add(content, "files", pdfFileName);
 
         var createResult = await host.Scenario(_ =>
         {
-            _.Post.MultipartFormData(formData)
-                .QueryString("versionIncrementType", "Major")
-                .ToUrl(DocumentApiUrl);
+            _.Post.MultipartFormData(formData).ToUrl(DocumentApiUrl);
             _.StatusCodeShouldBe(201);
         });
 
-        var documentCreated = await createResult.ReadAsJsonAsync<DocumentDocument>();
+        var documentCreateds = await createResult.ReadAsJsonAsync<DocumentDocument[]>();
+        var documentCreated = documentCreateds.First();
 
-        Assert.NotNull(documentCreated);
+        Assert.NotNull(documentCreateds);
 
         var getResult = await host.Scenario(_ =>
         {
@@ -67,7 +67,7 @@ public class EndpointsShould
         var documentRetrieved2 = await getResult2.ReadAsJsonAsync<DocumentDocument>();
 
         Assert.NotNull(documentRetrieved2);
-        Assert.Equal(new Version(2, 0), documentRetrieved2.Version);
+        Assert.Equal(new Version(1, 0), documentRetrieved2.Version);
 
         await host.Scenario(_ =>
         {

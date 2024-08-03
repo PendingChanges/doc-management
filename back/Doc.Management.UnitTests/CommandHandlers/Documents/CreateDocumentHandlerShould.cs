@@ -35,8 +35,7 @@ public class CreateDocumentHandlerShould
             DocumentKey.Parse("2024/06/01/4949949"),
             "name",
             "filename",
-            "ext",
-            VersionIncrementType.Minor
+            "ext"
         );
         var wrappedCommand = new WrappedCommand<CreateDocument, Document>(command, ownerId);
 

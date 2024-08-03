@@ -30,14 +30,7 @@ public class ModifyDocumentHandlerShould
         // Arrange
         var ownerId = new UserId("user id");
         var aggregate = new Document();
-        aggregate.CreateDocument(
-            DocumentKey.NewDocumentKey(),
-            "name",
-            "filename",
-            "ext",
-            VersionIncrementType.Major,
-            ownerId
-        );
+        aggregate.CreateDocument(DocumentKey.NewDocumentKey(), "name", "filename", "ext", ownerId);
         _aggregateReaderMock
             .Setup(_ =>
                 _.LoadAsync<Document>(
