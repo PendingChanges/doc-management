@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DocumentIconComponent should match the snapshot with a pdf document provided 1`] = `
+<app-document-icon
+  document={[Function Function]}
+  iconUrl={[Function Function]}
+>
+  <p-image
+    class="p-element block xl:block mx-auto border-round w-full"
+    width="30"
+  >
+    <span
+      class="p-image p-component"
+    >
+      <img
+        src="/pdf.svg"
+        width="30"
+      />
+    </span>
+  </p-image>
+</app-document-icon>
+`;
+
+exports[`DocumentIconComponent should match the snapshot with no document provided 1`] = `
+<app-document-icon
+  document={[Function Function]}
+  iconUrl={[Function Function]}
+>
+  <p-image
+    class="p-element block xl:block mx-auto border-round w-full"
+    width="30"
+  >
+    <span
+      class="p-image p-component"
+    >
+      <img
+        src="/unknown.svg"
+        width="30"
+      />
+    </span>
+  </p-image>
+</app-document-icon>
+`;

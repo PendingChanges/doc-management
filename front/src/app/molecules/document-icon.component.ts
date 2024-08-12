@@ -1,12 +1,7 @@
-import { CommonModule, NgFor } from '@angular/common';
 import { Component, computed, input } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { DataViewModule } from 'primeng/dataview';
-import { TagModule } from 'primeng/tag';
 import { ImageModule } from 'primeng/image';
 
 import { Document } from '../../graphql/generated';
-import { environment } from '../../infrastructure/environments/environment.development';
 
 @Component({
   selector: 'app-document-icon',

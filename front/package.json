@@ -8,6 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:watch": "ng test --watch",
+    "test:update-snap": "jest --updateSnapshot",
     "generate": "graphql-codegen",
     "codegen": "cross-env NODE_TLS_REJECT_UNAUTHORIZED=0 graphql-codegen --config codegen.ts",
     "openapi:generate": "openapi-generator-cli generate -g typescript-angular -o ./src/services/generated/ -i openapi.json"
