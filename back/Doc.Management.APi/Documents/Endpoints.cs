@@ -23,17 +23,25 @@ internal static class Endpoints
         app.MapPost("api/documents", CreateDocument)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status201Created)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .WithName("CreateDocument")
+            .WithOpenApi();
 
         app.MapPut("api/documents/{id}", UpdateDocument)
             .Produces(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status201Created)
-            .DisableAntiforgery();
+            .DisableAntiforgery()
+            .WithName("UpdateDocument")
+            .WithOpenApi();
 
-        app.MapGet("api/documents/{id}/infos", GetDocumentData);
+        app.MapGet("api/documents/{id}", GetDocument)
+            .WithName("GetDocument")
+            .Produces<FileStreamHttpResult>()
+            .WithOpenApi();
 
-        app.MapGet("api/documents/{id}", GetDocument);
-        app.MapDelete("api/documents/{id}", DeleteDocument);
+        app.MapDelete("api/documents/{id}", DeleteDocument)
+            .WithName("DeleteDocument")
+            .WithOpenApi();
 
         return app;
     }
@@ -79,27 +87,6 @@ internal static class Endpoints
         await mediator.Send(command, cancellationToken);
 
         return TypedResults.Ok();
-    }
-
-    private static async Task<Results<Ok<DocumentDocument>, NotFound>> GetDocumentData(
-        [FromServices] IReadDocuments documentReader,
-        [FromRoute] Guid id,
-        [FromQuery] string? version,
-        CancellationToken cancellationToken = default
-    )
-    {
-        var document = await documentReader.GetDocumentByIdAsync(
-            id,
-            version != null ? Version.Parse(version) : null,
-            cancellationToken
-        );
-
-        if (document == null)
-        {
-            return TypedResults.NotFound();
-        }
-
-        return TypedResults.Ok(document);
     }
 
     public static async Task<

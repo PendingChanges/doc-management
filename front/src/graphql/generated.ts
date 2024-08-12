@@ -57,6 +57,7 @@ export type Document = {
 export type Query = {
   __typename?: 'Query';
   allDocuments?: Maybe<AllDocumentsCollectionSegment>;
+  document?: Maybe<Document>;
 };
 
 
@@ -65,6 +66,12 @@ export type QueryAllDocumentsArgs = {
   sortBy?: InputMaybe<Scalars['String']['input']>;
   sortDirection?: InputMaybe<Scalars['String']['input']>;
   take?: InputMaybe<Scalars['Int']['input']>;
+};
+
+
+export type QueryDocumentArgs = {
+  id: Scalars['UUID']['input'];
+  version?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Version = {
@@ -84,6 +91,14 @@ export type AllDocumentsQueryVariables = Exact<{
 
 
 export type AllDocumentsQuery = { __typename?: 'Query', allDocuments?: { __typename?: 'AllDocumentsCollectionSegment', totalCount: number, items?: Array<{ __typename?: 'Document', extension: string, fileNameWithoutExtension: string, id: any, name: string, version: { __typename?: 'Version', major: number, minor: number } }> | null, pageInfo: { __typename?: 'CollectionSegmentInfo', hasNextPage: boolean, hasPreviousPage: boolean } } | null };
+
+export type DocumentQueryVariables = Exact<{
+  id: Scalars['UUID']['input'];
+  version?: InputMaybe<Scalars['String']['input']>;
+}>;
+
+
+export type DocumentQuery = { __typename?: 'Query', document?: { __typename?: 'Document', extension: string, fileNameWithoutExtension: string, id: any, name: string, version: { __typename?: 'Version', major: number, minor: number } } | null };
 
 export const AllDocumentsDocument = gql`
     query allDocuments($skip: Int, $take: Int) {
@@ -112,6 +127,31 @@ export const AllDocumentsDocument = gql`
   })
   export class AllDocumentsGQL extends Apollo.Query<AllDocumentsQuery, AllDocumentsQueryVariables> {
     document = AllDocumentsDocument;
+    
+    constructor(apollo: Apollo.Apollo) {
+      super(apollo);
+    }
+  }
+export const DocumentDocument = gql`
+    query document($id: UUID!, $version: String) {
+  document(id: $id, version: $version) {
+    extension
+    fileNameWithoutExtension
+    id
+    name
+    version {
+      major
+      minor
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DocumentGQL extends Apollo.Query<DocumentQuery, DocumentQueryVariables> {
+    document = DocumentDocument;
     
     constructor(apollo: Apollo.Apollo) {
       super(apollo);

@@ -11,12 +11,15 @@ public static class DocumentsMapper
         this IReadOnlyList<DocumentDocument> clients
     ) => clients.Select(ToDocument).ToList();
 
-    public static Outputs.Document ToDocument(this DocumentDocument clientDocument) =>
+    public static Outputs.Document ToDocument(this DocumentDocument documentDocument) =>
         new(
-            clientDocument.Id,
-            clientDocument.Name,
-            clientDocument.FileNameWithoutExtension,
-            clientDocument.Extension,
-            clientDocument.Version
+            documentDocument.Id,
+            documentDocument.Name,
+            documentDocument.FileNameWithoutExtension,
+            documentDocument.Extension,
+            documentDocument.Version
         );
+
+    public static Outputs.Document? ToDocumentOrNull(this DocumentDocument? documentDocument) =>
+        documentDocument == null ? null : ToDocument(documentDocument);
 }

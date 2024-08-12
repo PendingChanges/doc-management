@@ -1,0 +1,16 @@
+.gitignore
+README.md
+api.module.ts
+api/api.ts
+api/endpoints.service.ts
+configuration.ts
+encoder.ts
+git_push.sh
+index.ts
+model/documentDocument.ts
+model/entityTagHeaderValue.ts
+model/fileStreamHttpResult.ts
+model/models.ts
+model/stringSegment.ts
+param.ts
+variables.ts

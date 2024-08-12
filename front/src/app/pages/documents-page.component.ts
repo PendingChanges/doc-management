@@ -8,11 +8,13 @@ import { DocumentUploadButtonComponent } from '../organisms/document-upload-butt
   selector: 'app-documents-page',
   standalone: true,
   imports: [DocumentListComponent, AsyncPipe, DocumentUploadButtonComponent],
-  template: ` <app-document-upload-button></app-document-upload-button>
+  template: `<div class="p-5">
+    <app-document-upload-button></app-document-upload-button>
     <app-document-list
       [documents]="(allDocuments$ | async)?.items || []"
       [totalCount]="(allDocuments$ | async)?.totalCount || 0"
-    ></app-document-list>`,
+    ></app-document-list>
+  </div>`,
   styles: '',
 })
 export class DocumentsPageComponent implements OnInit {

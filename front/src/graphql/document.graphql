@@ -1,0 +1,12 @@
+query document($id: UUID!, $version: String) {
+  document(id: $id, version: $version) {
+    extension
+    fileNameWithoutExtension
+    id
+    name
+    version {
+      major
+      minor
+    }
+  }
+}

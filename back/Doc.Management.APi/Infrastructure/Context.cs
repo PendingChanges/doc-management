@@ -1,5 +1,4 @@
-﻿using Doc.Management;
-using Doc.Management.ValueObjects;
+﻿using Doc.Management.ValueObjects;
 using Microsoft.AspNetCore.Http;
 
 namespace Doc.Management.Api.Infrastructure

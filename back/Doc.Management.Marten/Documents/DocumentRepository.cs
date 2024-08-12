@@ -43,11 +43,9 @@ public class DocumentRepository : IReadDocuments
 
         query = SortBy(request, query);
 
-        var pagedResult = await query.ToPagedListAsync(
-            request.Skip + 1,
-            request.Take,
-            cancellationToken
-        );
+        var pageNumber = request.Skip / request.Take + 1;
+
+        var pagedResult = await query.ToPagedListAsync(pageNumber, request.Take, cancellationToken);
 
         return new DocumentResultSet(
             pagedResult.ToList(),

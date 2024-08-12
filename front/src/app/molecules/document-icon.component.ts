@@ -16,7 +16,7 @@ import { environment } from '../../infrastructure/environments/environment.devel
     class="block xl:block mx-auto border-round w-full"
     [src]="iconUrl()"
     [alt]="document()?.name"
-    width="100"
+    width="30"
   />`,
   styles: '',
 })

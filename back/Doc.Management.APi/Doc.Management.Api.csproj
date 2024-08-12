@@ -4,19 +4,25 @@
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0-preview.4.23260.4" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.7.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Doc.Management.CommandHandlers\Doc.Management.CommandHandlers.csproj" />
-	  <ProjectReference Include="..\Doc.Management.GraphQL\Doc.Management.GraphQL.csproj" />
-	  <ProjectReference Include="..\Doc.Management.Marten\Doc.Management.Marten.csproj" />
-	  <ProjectReference Include="..\Doc.Management.S3\Doc.Management.S3.csproj" />
+		<ProjectReference Include="..\Doc.Management.CommandHandlers\Doc.Management.CommandHandlers.csproj" />
+		<ProjectReference Include="..\Doc.Management.GraphQL\Doc.Management.GraphQL.csproj" />
+		<ProjectReference Include="..\Doc.Management.Marten\Doc.Management.Marten.csproj" />
+		<ProjectReference Include="..\Doc.Management.S3\Doc.Management.S3.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="wwwroot\uploads\" />
+		<Folder Include="obj\" />
+		<Folder Include="wwwroot\uploads\" />
 	</ItemGroup>
 
+	<Target Name="OpenAPI" AfterTargets="Build" Condition="$(Configuration)=='Debug'">
+		<Exec EnvironmentVariables="ConnectionStrings__Marten=Host=localhost;Port=5433;Username=postgres;Password=postgres;S3__ServiceUrl=http://s3.us-east-2.localhost.localstack.cloud:4566;S3__AccessKey=test;S3__SecretKey=test;S3__BucketName=document-storage;Keycloak__KeycloakUrlRealm=https://app-38fe6a67-2a9e-4e27-b735-b3dd1c3e4698.cleverapps.io/realms/JOURNALIST-CRM;Keycloak_SslRequired=None;Keycloak__Resource=account;Keycloak__VerifyTokenAudience=false" Command="dotnet swagger tofile --output ../../../../../front/openapi.json $(TargetPath) v1" WorkingDirectory="$(TargetDir)" />
+	</Target>
 </Project>

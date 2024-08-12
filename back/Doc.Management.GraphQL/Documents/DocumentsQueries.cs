@@ -1,10 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Doc.Management.Documents;
 using Doc.Management.Documents.DataModels;
 using HotChocolate;
 using HotChocolate.Types;
 using HotChocolate.Types.Pagination;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Doc.Management.GraphQL.Documents;
 
@@ -13,7 +15,7 @@ public class DocumentsQueries
 {
     [GraphQLName("allDocuments")]
     [UseOffsetPaging(IncludeTotalCount = true)]
-    public async Task<CollectionSegment<Outputs.Document>> GetClientsAsync(
+    public async Task<CollectionSegment<Outputs.Document>> GetAllDocumentsAsync(
         [Service] IReadDocuments documentsReader,
         int? skip,
         int? take,
@@ -37,5 +39,22 @@ public class DocumentsQueries
         );
 
         return collectionSegment;
+    }
+
+    [GraphQLName("document")]
+    public async Task<Outputs.Document?> GetDocument(
+        [Service] IReadDocuments documentReader,
+        Guid id,
+        string? version,
+        CancellationToken cancellationToken = default
+    )
+    {
+        var document = await documentReader.GetDocumentByIdAsync(
+            id,
+            version != null ? Version.Parse(version) : null,
+            cancellationToken
+        );
+
+        return document.ToDocumentOrNull();
     }
 }
